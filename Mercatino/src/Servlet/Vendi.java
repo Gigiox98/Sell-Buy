@@ -1,13 +1,9 @@
 package Servlet;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Random;
 
-import javax.servlet.ServletContext;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -68,7 +64,6 @@ public class Vendi extends HttpServlet {
 				String data=today.toString();
 				String nome=request.getParameter("nome");
 				String pre=request.getParameter("prezzo");
-				System.out.println(nome+pre);
 				double prezzo=Double.parseDouble(pre);
 				String q=request.getParameter("quantità");
 				int quantità=Integer.parseInt(q);
