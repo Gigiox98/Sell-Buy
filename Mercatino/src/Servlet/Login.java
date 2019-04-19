@@ -54,7 +54,7 @@ public class Login extends HttpServlet {
 				HttpSession session=request.getSession();
 				synchronized(session)
 				{
-					session.setMaxInactiveInterval(60*6);
+					session.setMaxInactiveInterval(6*60);
 					session.setAttribute("username", login);
 					response.sendRedirect("HomePage.jsp");
 				}

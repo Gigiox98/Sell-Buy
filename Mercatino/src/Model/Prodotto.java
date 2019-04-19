@@ -1,5 +1,7 @@
 package Model;
 
+import java.io.File;
+
 public class Prodotto 
 {
 	private String codice;
@@ -11,10 +13,11 @@ public class Prodotto
 	private String stato;
 	private String cod_venditore;
 	private String cod_categoria;
+	private String immagine;
 		
 	
 	public Prodotto(String codice, int quantità, double prezzo, String descrizione, String località,
-			String data_ins, String stato, String cod_venditore, String cod_categoria) {
+			String data_ins, String stato, String cod_venditore, String cod_categoria,String immagine) {
 		this.codice = codice;
 		this.quantità = quantità;
 		this.prezzo = prezzo;
@@ -24,6 +27,15 @@ public class Prodotto
 		this.stato = stato;
 		this.cod_venditore = cod_venditore;
 		this.cod_categoria = cod_categoria;
+		this.immagine=immagine;
+	}
+
+	public String getImmagine() {
+		return immagine;
+	}
+
+	public void setImmagine(String immagine) {
+		this.immagine = immagine;
 	}
 
 	public String getCod_venditore() {

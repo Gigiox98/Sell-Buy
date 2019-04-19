@@ -1,5 +1,9 @@
 package Model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,7 +17,7 @@ public class ProdottoDAO
 	final String USER = "root";
 	final String PASS = "Rompicapo98";
 	
-	public void doSave(Prodotto o) throws SQLException 
+	public int doSave(Prodotto o) throws SQLException, IOException 
 	{
 		try 
 	    {
@@ -30,15 +34,18 @@ public class ProdottoDAO
 	    {
 	      try (Statement stmt = conn.createStatement()) 
 	      {
+	    	int x;
 	        String query= "select cod_p from prodotto where cod_p like '"+o.getCodice()+"';";
 	        ResultSet rs=stmt.executeQuery(query);
 	        if(!rs.next())
 	        {
-	          String query2="insert into prodotto(cod_p,quantità,prezzo,descrizione,località,data_inserimento,stato,codice_venditore,codice_categoria) values ('"+
-	          o.getCodice()+"','"+o.getQuantità()+"','"+o.getPrezzo()+"','"+o.getDescrizione()+"','"+o.getLocalità()+"','"+o.getData_ins()+"','"+o.getStato()+"','"+o.getCod_venditore()+"','"+o.getCod_categoria()+"'"+");";
-	          stmt.executeUpdate(query2);
+	          File file=new File(o.getImmagine());
+	          String query2="insert into prodotto(cod_p,quantità,prezzo,descrizione,località,data_inserimento,stato,codice_venditore,nome_categoria,immagine) values ('"+
+	          o.getCodice()+"','"+o.getQuantità()+"','"+o.getPrezzo()+"','"+o.getDescrizione()+"','"+o.getLocalità()+"','"+o.getData_ins()+"','"+o.getStato()+"','"+o.getCod_venditore()+"','"+o.getCod_categoria()+"','"+file+"'"+");";
+	          x=stmt.executeUpdate(query2);
+	          return x;
 	        }
-	        
+	        return 0;
 	      }
 	    }
 	}
@@ -64,7 +71,7 @@ public class ProdottoDAO
 	        ResultSet rs=stmt.executeQuery(query);
 	        if(!rs.next())
 	        {
-	          String query2="insert into prodotto(cod_p,quantità,prezzo,descrizione,località,data_inserimento,stato,codice_venditore,codice_categoria) values ('"+
+	          String query2="insert into prodotto(cod_p,quantità,prezzo,descrizione,località,data_inserimento,stato,codice_venditore,nome_categoria) values ('"+
 	          o.getCodice()+"','"+o.getQuantità()+"','"+o.getPrezzo()+"','"+o.getDescrizione()+"','"+o.getLocalità()+"','"+o.getData_ins()+"','"+o.getStato()+"','"+o.getCod_venditore()+"','"+o.getCod_categoria()+"'"+");";
 	          stmt.executeUpdate(query2);
 	        }
@@ -73,7 +80,7 @@ public class ProdottoDAO
 	        {
 	        	String query2="update prodotto set quantità='"+o.getQuantità()+"', prezzo='"
 	    		        +o.getPrezzo()+"', descrizione='"+o.getDescrizione()+"', località='"+o.getLocalità()+"', data_inserimento='"+o.getData_ins()
-	    		        +"', stato='"+o.getStato()+"', codice_venditore='"+o.getCod_venditore()+"' , codice_categoria='"+o.getCod_categoria()+"' where cod_p='"+o.getCodice()+"');";
+	    		        +"', stato='"+o.getStato()+"', codice_venditore='"+o.getCod_venditore()+"' , nome_categoria='"+o.getCod_categoria()+"' where cod_p='"+o.getCodice()+"');";
 	    		  		          stmt.executeUpdate(query2);
 	        }
 	      }
@@ -102,7 +109,7 @@ public class ProdottoDAO
 	      }
 	    }
 	}
-	
+}/*	
 	public Prodotto doRetriveByKey(String key) throws SQLException {
 
 		try {
@@ -130,7 +137,7 @@ public class ProdottoDAO
 					String data_ins=rs.getString("data_inserimento");
 					String stato=rs.getString("stato");
 					String codice_venditore=rs.getString("codice_venditore");
-					String codice_categoria=rs.getString("codice_categoria");
+					String codice_categoria=rs.getString("nome_categoria");
 					return new Prodotto(key,quantità,prezzo,descrizione,località,data_ins,stato,codice_venditore,codice_categoria);
 				}
 				
@@ -174,7 +181,7 @@ public class ProdottoDAO
 					String data_ins=rs.getString("data_inserimento");
 					String stato=rs.getString("stato");
 					String codice_venditore=rs.getString("codice_venditore");
-					String codice_categoria=rs.getString("codice_categoria");
+					String codice_categoria=rs.getString("nome_categoria");
 					String codice=rs.getString("cod_p");
 					list.add(new Prodotto(codice,quantità,prezzo,descrizione,località,data_ins,stato,codice_venditore,codice_categoria));
 				}
@@ -218,7 +225,7 @@ public class ProdottoDAO
 					String data_ins=rs.getString("data_inserimento");
 					String stato=rs.getString("stato");
 					String codice_venditore=rs.getString("codice_venditore");
-					String codice_categoria=rs.getString("codice_categoria");
+					String codice_categoria=rs.getString("nome_categoria");
 					String codice=rs.getString("cod_p");
 					list.add(new Prodotto(codice,quantità,prezzo,descrizione,località,data_ins,stato,codice_venditore,codice_categoria));
 				}
@@ -235,3 +242,4 @@ public class ProdottoDAO
 	}
 
 }
+*/
