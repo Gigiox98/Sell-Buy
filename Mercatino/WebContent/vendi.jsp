@@ -16,7 +16,7 @@
 
 	<h1 align="CENTER">Form Vendita</h1>
 	<div class= "container" >
-	<form action="Vendi" method="post" enctype="multipart/form-data">
+	<form action="Vendi" method="post">
 		<h3> Inserisci i dati per la vendita del tuo prodotto</h3>
 		<div class="row">
 		<label  class= "col-sm-1 " for="Categoria"> Categoria: </label> 
@@ -36,11 +36,11 @@
 		<br /> <br />
 		
 		<label  class= "col-sm-1" for="Nome">Nome:</label> <input class= "col-sm-4"  type = "text"  class="form-control" name = "nome"> <br /> <br />
-		<label	class= "col-sm-1" for="Quantità">Quantità:</label>  <input class= "col-sm-4"  type = "number"  class="form-control" name = "Quantità"> <br /> <br />
-		<label  class= "col-sm-1" for="Prezzo">Prezzo:</label> <input class= "col-sm-4"  type = "number" step="0.1"  class="form-control" name = "nome"> <br /> <br />
+		<label	class= "col-sm-1" for="Quantità">Quantità:</label>  <input class= "col-sm-4"  type = "number"  class="form-control" name = "quantità"> <br /> <br />
+		<label  class= "col-sm-1" for="Prezzo">Prezzo:</label> <input class= "col-sm-4"  type = "number" step="0.1"  class="form-control" name = "prezzo"> <br /> <br />
 		<label   class= "col-sm-1" for="Descrizione">Descrizione:</label><input class= "col-sm-4"  type="text"  class="form-control" name = "descrizione"> <br /> <br />
 		<label class= "col-sm-1"for="Località">Località:</label><input class= "col-sm-4" type = "text" class="form-control" name = "località"> <br /> <br />
-		<label class= "col-sm-1"for="Immagine">Immagine:</label><input class= "col-sm-4" type = "file" class="form-control" name = "Immagine"> <br /> <br />
+		<label class= "col-sm-1"for="Immagine">Immagine:</label><input class= "col-sm-4" type = "file" class="form-control" name = "immagine"> <br /> <br />
 		
 		<input class= "btn btn-success" type = "submit" name = "Inserisci" value = "Inserisci">
 		</div>
