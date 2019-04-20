@@ -1,4 +1,4 @@
-<%@ page import = "java.util.ArrayList, Model.*" language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page import ="java.util.ArrayList, Model.*" language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
 <!DOCTYPE HTML>
@@ -15,13 +15,13 @@
 <body>
 
 	<h1 align="CENTER">Form Vendita</h1>
+<form action="Vendi" method="post" enctype="multipart/form-data">
 	<div class= "container">
-	<form action="Vendi" method="post">
 		<h3> Inserisci i dati per la vendita del tuo prodotto</h3>
-		<div class="row">
-		<label  class= "col-sm-1 " for="categoria"> Categoria: </label> 
 		
-		<select name = "categoria" class="col-sm-4"> 
+		<div class="form-group">
+		<label for="categoria">Categoria:</label>
+		<select name="categoria">
 		<%
 		 	CategoriaDAO categoria=new CategoriaDAO();
 			ArrayList<Categoria> list=categoria.doRetriveAll();
@@ -32,22 +32,51 @@
 			}
 		%>
 		</select>
-		
-		<br /> <br />
-		
-		<label  class= "col-sm-1" for="nome">Nome:</label> <input class= "col-sm-4"  type="text"  class="form-control" name = "nome"> <br /> <br />
-		<label	class= "col-sm-1" for="quantità">Quantità:</label>  <input class= "col-sm-4"  type="text"  class="form-control" name = "quantità"> <br /> <br />
-		<label  class= "col-sm-1" for="prezzo">Prezzo:</label> <input class= "col-sm-4"  type="text" class="form-control" name ="prezzo"> <br /> <br />
-		<label  class= "col-sm-1" for="descrizione">Descrizione:</label> <input class= "col-sm-4"  type="text"  class="form-control" name = "descrizione"> <br /> <br />
-		<label  class= "col-sm-1"for="località">Località:</label><input class= "col-sm-4" type="text" class="form-control" name = "località"> <br /> <br />
-		<label  class= "col-sm-1" for="stato">Stato:</label> <input class= "col-sm-4"  type="text"  class="form-control" name = "stato"> <br /> <br />
-		<label  class= "col-sm-1"for="immagine">Immagine:</label><input class= "col-sm-4" type="file" class="form-control" name = "immagine"> <br /> <br />
-		
-		<input class= "btn btn-success" type = "submit" value = "Inserisci">
 		</div>
-	</form>
+		<div class="form-group">
+     	 <label for="nome">Nome Prodotto:</label>
+      	 <input type="text" class="form-control" name="nome">
+   		</div>
+   		
+   		<div class="form-group">
+     	 <label for="prezzo">Prezzo:</label>
+      	 <input type="text" class="form-control" name="prezzo">
+   		</div>
+   		
+   		<div class="form-group">
+     	 <label for="quantità">Quantità:</label>
+      	 <input type="number" class="form-control" name="quantità">
+   		</div>
+   		
+   		<div class="form-group">
+     	 <label for="località">Località:</label>
+      	 <input type="text" class="form-control" name="località">
+   		</div>
+   		
+   		<div class="form-group">
+		<label for="categoria">Stato:</label>
+   		<select name="stato">
+   			<option value="Usato">Usato</option>
+   			<option value="Nuovo">Nuovo</option>
+   		</select>
+   		</div>
+   		
+   		<div class="form-group">
+     	 <label for="descrizione">Descrizione:</label>
+      	 <input type="text" class="form-control" name="descrizione">
+   		</div>
+   		
+   		<div class="form-group">
+     	 <label for="image">Immagine:</label>
+      	 <input type="file" class="form-control" name="image">
+   		</div>
+   
+   		<div class="form-group">
+   		<input type="submit" value="Inserisci">
+   		</div>
+   		
 	</div>
-</body>
+</form>
 </html>
 
 
