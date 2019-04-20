@@ -1,4 +1,4 @@
-<%@ page import="java.util.*" language="java"
+<%@ page import="java.util.*,Model.*" language="java"
 	contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <html lang="en">
 <head>
@@ -12,150 +12,143 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <style>
-body {
-	margin-left: 10%;
-	margin-right: 10%;
-	background-image: url('Immagini/sfondo.jpg');
+
+body
+{
+	background-image:url("Immagini/sfondo.jpg");
+	backgroung-repeat:no-repeat;
 }
 
-a {
-	color: rgb(242, 238, 0);
-	font-size: 20px
-}
-
-a:hover{
-	background: grey;
-}
-/* Remove the navbar's default margin-bottom and rounded borders */
 .navbar {
-	margin-bottom: 0;
-	border-radius: 0;
-}
-
-/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-.row.content {
-	height: 450px
-}
-
-/* Set gray background color and 100% height */
-.sidenav {
-	padding-top: 20px;
-	background-color: #f1f1f1;
-	height: 100%;
-}
-
-/* Set black background color, white text and some padding */
-footer {
-	background-color: #555;
-	color: white;
-	padding: 15px;
-}
-
-/* On small screens, set height to 'auto' for sidenav and grid */
-@media screen and (max-width: 767px) {
-	.sidenav {
-		height: auto;
-		padding: 15px;
-	}
-	.row.content {
-		height: auto;
-	}
-	.nav-link:hover {
-		background: red;
-	}
+      margin-bottom: 50px;
+      border-radius: 0;
+    }
+    
+    /* Remove the jumbotron's default bottom margin */ 
+     .jumbotron {
+      margin-bottom: 0;
+    }
+   
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
 }
 </style>
 </head>
 <body>
+
 	<%
 		String username = (String) session.getAttribute("username");
 	%>
-	<div class="col-lg-12" style="padding: 0;">
+	
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+  <div class="row"  style="padding: 0;">
+		<div class="col-sm-12" style="padding: 0;">
 		<img src="Immagini/HomeTop.PNG" class="img img-responsive" style="width:100%; margin:none;">
 		</div>
-
-
-	<div class="container-fluid text-center">
-		<div class="row content">
-			<div class="col-sm-2 sidenav" style="background-color:#101010;">
-				<ul class="nav flex-column ">
-					<li class="nav-item"><a class="nav-link active" href="#">Home</a>
-					</li>
-					<%
-						if (username == null) {
-					%>
-					<li class="nav-item"><a class="nav-link" href="login.jsp"><span
-							class="glyphicon glyphicon-log-in"></span> Login</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Registazione</a>
-					</li>
-					<%
+		</div>
+	
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Logo</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="HomePage.jsp">Home</a></li>
+        <li><a href="About.html">About-us</a></li>
+        <%
+			if (username == null) {
+		%>
+					<li><a href="login.jsp">Login</a></li>
+					<li><a href="Registration.html">Registrazione</a></li>
+					<% 
 						} else {
 					%>
-					<li class="nav-item"><a class="nav-link" href="vendi.jsp">Vendi</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="Storico.jsp">Storico</a></li>
-					<li class="nav-item"><a class="nav-link" href="Logout">Log-out</a></li>
-					<%
-						}
-					%>
-					<li class="nav-item"><a class="nav-link" href="#">About-us</a></li>
-				</ul>
+					 <li><a href="vendi.jsp">Vendi</a></li>
+        			 <li><a href="storico.jsp">Storico</a></li>
+					 <li><a href="Logout">Log-out</a></li>
+					 </ul>
+					 <ul class="nav navbar-nav navbar-right">
+					  <li><a>Benvenuto <%=username%></a></li>
+        			<li><a href="#"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>
+       				 <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+       				 <li><a href="#"><span class="glyphicon glyphicon-align-justify"></span></a></li>
+      				</ul>
+      		<%}%> 
+      	
+    </div>
+  </div>
+</nav> 
+	<%
+		ProdottoDAO p=new ProdottoDAO();
+		Prodotto x=p.doRetriveByKey("9553395112");
+		String j=x.getImmagine();
+	%>
+	
+	<div class="container">  
+	<h1 align="center" style="color:lightblue"> USATO </h1>  
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">BLACK FRIDAY DEAL</div>
+        <div class="panel-body"><img src="data:image/jpg;base64,<%=j %>" class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+      </div>
+    </div>
+    <div class="col-sm-4"> 
+      <div class="panel panel-danger">
+        <div class="panel-heading">BLACK FRIDAY DEAL</div>
+        <div class="panel-body"><img src="data:image/jpg;base64,<%=j %>" class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+      </div>
+    </div>
+    <div class="col-sm-4"> 
+      <div class="panel panel-success">
+        <div class="panel-heading">BLACK FRIDAY DEAL</div>
+        <div class="panel-body"><img src="data:image/jpg;base64,<%=j %>" class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+      </div>
+    </div>
+  </div>
+</div><br>
 
-			</div>
-			<div class="col-sm-10 text-left"
-				style="background-color: green; height: 100%; padding: 0%;">
-				<nav class="navbar navbar-inverse" style="margin: 0%;">
-					<div class="container-fluid">
-
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle"
-								data-toggle="collapse" data-target="#myNavbar">
-								<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-									class="icon-bar"></span>
-							</button>
-							<span class="navbar-brand" style="color: rgb(242, 238, 0);">Filtro
-								Ricerca</span>
-						</div>
-						<div class="collapse navbar-collapse" id="myNavbar">
-							<form class="navbar-form navbar-left" action="/action_page.php">
-								<div class="form-group" style="display: inline;">
-									<input type="text" class="form-control" placeholder="Prodotto">
-									<select class="form-control">
-										<option>Zona</option>
-										<option>Zona</option>
-										<option>Zona</option>
-										<option>Zona</option>
-
-									</select>
-									<button type="submit" class="btn btn-success">
-										<span class="glyphicon glyphicon-search"></span>
-									</button>
-								</div>
-							</form>
-								
-								<%
-									if (username != null) {
-										out.print("<p class=\"navbar-brand\" style=\"color: rgb(242, 238, 0);\"> Benvenuto " + username
-												+ " </p>");
-										out.print(" <ul class=\"nav navbar-nav navbar-right\"><li> <a href=\"#\" class=\"navbar-item btn btn-success btn-md\" style=\" color: rgb(242, 238, 0);position: absolute; top: 10%; right: 2%;\">"
-														+ "<p class=\"  glyphicon glyphicon-shopping-cart\"></p> Shopping Cart</a></li></ul>");
-									}
-
-									else {
-										out.print("<p class=\"navbar-brand\" style=\"color: rgb(242, 238, 0);\"> Effettua login </span>");
-									}
-								%>
-						</div>
-					</div>
-				</nav>
-
-			</div>
-		</div>
-	</div>
+<div class="container">    
+  <div class="row">
+  <h1 align="center" style="color:lightblue"> NUOVO </h1>
+    <div class="col-sm-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">BLACK FRIDAY DEAL</div>
+        <div class="panel-body"><img src="data:image/jpg;base64,<%=j %>"  class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+      </div>
+    </div>
+    <div class="col-sm-4"> 
+      <div class="panel panel-primary">
+        <div class="panel-heading">BLACK FRIDAY DEAL</div>
+        <div class="panel-body"><img src="data:image/jpg;base64,<%=j %>"  class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+      </div>
+    </div>
+    <div class="col-sm-4"> 
+      <div class="panel panel-primary">
+        <div class="panel-heading">BLACK FRIDAY DEAL</div>
+        <div class="panel-body"><img src="data:image/jpg;base64,<%=j %>" class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+      </div>
+    </div>
+  </div>
+</div>
+<br><br>
 
 	<footer class="container-fluid text-center">
 		<p>Footer Text</p>
 	</footer>
-
 </body>
 </html>
