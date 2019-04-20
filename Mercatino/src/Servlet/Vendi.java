@@ -1,35 +1,33 @@
 package Servlet;
 
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Random;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import org.apache.tomcat.util.codec.binary.Base64;
 import Model.Prodotto;
 import Model.ProdottoDAO;
 
 /**
  * Servlet implementation class Vendi
  */
+
 @WebServlet(urlPatterns= {"/Vendi"},
 initParams = 
 { 
-		@WebInitParam(name = "nome", value = "", description = "nome dell'utente"), 
-		@WebInitParam(name = "prezzo", value = "", description = "cognome dell'utente"), 
-		@WebInitParam(name = "quantità", value = "", description = "username"), 
-		@WebInitParam(name = "myloc", value = "", description = "password"),	
-		@WebInitParam(name = "località", value = "", description = "nome dell'utente"), 
-		@WebInitParam(name = "stato", value = "", description = "cognome dell'utente"), 
-		@WebInitParam(name = "descrizione", value = "", description = "username"), 
-		@WebInitParam(name = "categoria", value = "", description = "password")		
 })
 
+@MultipartConfig
 public class Vendi extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -57,9 +55,30 @@ public class Vendi extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		 		Part filePart = request.getPart("image");
+		 		InputStream content=filePart.getInputStream();
+	        	if (filePart != null) 
+	        	{
+	        			  String codice=generaCodice();
+	        			  String base64Image = "";
+	        			  String pathImmagine = "C:/Utenti/cerro/Desktop/eclipse-workspace1/Mercatino/WebContent/Immagini/prodotti/"+codice+".jpg";
+						  System.out.println(pathImmagine);
+	        			  try (FileInputStream imageInFile = (FileInputStream) content) 
+	        			  {
+	        			    byte imageData[] = new byte[500000];
+	        			    imageInFile.read(imageData);
+	        			    base64Image = Base64.encodeBase64String(imageData);
+	        			  } 
+	        			  
+	        			  catch (FileNotFoundException e) 
+	        			  {
+	        			    System.out.println("Image not found" + e);
+	        			  } catch (IOException ioe) {
+	        			    System.out.println("Exception while reading the Image " + ioe);
+	        			  }
+	        
 				HttpSession session=request.getSession();
 				String username=(String) session.getAttribute("username");
-				String codice=generaCodice();
 				java.util.Date today = new java.util.Date();
 				String data=today.toString();
 				String nome=request.getParameter("nome");
@@ -67,13 +86,13 @@ public class Vendi extends HttpServlet {
 				double prezzo=Double.parseDouble(pre);
 				String q=request.getParameter("quantità");
 				int quantità=Integer.parseInt(q);
-				String myloc = request.getParameter("immagine");
 				String località = request.getParameter("località");
 				String stato=request.getParameter("stato");
 				String descrizione = request.getParameter("descrizione");
 				String categoria= request.getParameter("categoria");
-				Prodotto p=new Prodotto(codice,quantità,prezzo,descrizione,località,data,stato,username,categoria,myloc);
+				Prodotto p=new Prodotto(codice,quantità,prezzo,descrizione,località,data,stato,username,categoria,base64Image);
 				ProdottoDAO pDAO=new ProdottoDAO();
+	        	
 				try 
 				{
 					int esito=pDAO.doSave(p);
@@ -91,7 +110,7 @@ public class Vendi extends HttpServlet {
 				{
 					e.printStackTrace();
 				}
-		
+	        }
 	}
 
 	/**

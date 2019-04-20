@@ -1,7 +1,5 @@
 package Model;
 
-import java.io.File;
-
 public class Prodotto 
 {
 	private String codice;
@@ -13,7 +11,7 @@ public class Prodotto
 	private String stato;
 	private String cod_venditore;
 	private String cod_categoria;
-	private String immagine;
+	private String immagine;  
 		
 	
 	public Prodotto(String codice, int quantità, double prezzo, String descrizione, String località,

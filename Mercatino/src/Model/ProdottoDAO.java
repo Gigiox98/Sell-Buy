@@ -1,22 +1,25 @@
 package Model;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+
+import com.mysql.cj.jdbc.Blob;
 
 public class ProdottoDAO
 {
 	final String DB_URL_with_SSL = "jdbc:mysql://localhost:3306/sellbuy?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	final String USER = "root";
 	final String PASS = "Rompicapo98";
-	
 	public int doSave(Prodotto o) throws SQLException, IOException 
 	{
 		try 
@@ -39,9 +42,8 @@ public class ProdottoDAO
 	        ResultSet rs=stmt.executeQuery(query);
 	        if(!rs.next())
 	        {
-	          File file=new File(o.getImmagine());
 	          String query2="insert into prodotto(cod_p,quantità,prezzo,descrizione,località,data_inserimento,stato,codice_venditore,nome_categoria,immagine) values ('"+
-	          o.getCodice()+"','"+o.getQuantità()+"','"+o.getPrezzo()+"','"+o.getDescrizione()+"','"+o.getLocalità()+"','"+o.getData_ins()+"','"+o.getStato()+"','"+o.getCod_venditore()+"','"+o.getCod_categoria()+"','"+file+"'"+");";
+	          o.getCodice()+"','"+o.getQuantità()+"','"+o.getPrezzo()+"','"+o.getDescrizione()+"','"+o.getLocalità()+"','"+o.getData_ins()+"','"+o.getStato()+"','"+o.getCod_venditore()+"','"+o.getCod_categoria()+"','"+o.getImmagine()+"'"+");";
 	          x=stmt.executeUpdate(query2);
 	          return x;
 	        }
@@ -109,8 +111,8 @@ public class ProdottoDAO
 	      }
 	    }
 	}
-}/*	
-	public Prodotto doRetriveByKey(String key) throws SQLException {
+	
+	public Prodotto doRetriveByKey(String key) throws SQLException, IOException {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -138,7 +140,8 @@ public class ProdottoDAO
 					String stato=rs.getString("stato");
 					String codice_venditore=rs.getString("codice_venditore");
 					String codice_categoria=rs.getString("nome_categoria");
-					return new Prodotto(key,quantità,prezzo,descrizione,località,data_ins,stato,codice_venditore,codice_categoria);
+					String x= rs.getString("immagine");
+					return new Prodotto(key,quantità,prezzo,descrizione,località,data_ins,stato,codice_venditore,codice_categoria,x);
 				}
 				
 				else 
@@ -152,8 +155,8 @@ public class ProdottoDAO
 		}
 
 	}
-	
-	public ArrayList<Prodotto> doRetriveByCond(String cond) throws SQLException {
+}	
+	/*public ArrayList<Prodotto> doRetriveByCond(String cond) throws SQLException {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -238,8 +241,6 @@ public class ProdottoDAO
 				return null;
 			}
 		}
-
-	}
 
 }
 */
