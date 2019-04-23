@@ -83,21 +83,36 @@ footer {
 	border: auto;
 	border-radius: 10px;
 }
+
+.header{
+	font-family: helvetica;
+	font-style: italic;
+	text-align: center;
+	font-size: 30px;
+	text-transform: capitalize;
+	color: #337ab7;
+	background-color: white;
+	padding: 0.5%;
+	border: 2px solid blue;
+	
+}
 </style>
 </head>
 <body>
 	<%
 		String username = (String) session.getAttribute("username");
+		ProdottoDAO p = new ProdottoDAO();
+		String j="";
 	%>
 
-	
-		<div class="container-fluid" style="">
-			<img src="Immagini/HomeTop.PNG" class="img img-responsive"
-				style="width: 100%; margin: none;">
-		</div>
 
-		<div class="container-fluid fixed-top">
-		<div class="btn-group btn-group-justified" style="margin-left :0%;">
+	<div class="container-fluid" style="">
+		<img src="Immagini/HomeTop.PNG" class="img img-responsive"
+			style="width: 100%; margin: none;">
+	</div>
+
+	<div class="container-fluid fixed-top">
+		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
 			<a class="btn btn-success active" href="#">Home</a>
 			<%
 				if (username == null) {
@@ -132,7 +147,8 @@ footer {
 
 				</div>
 
-				<div class="collapse navbar-collapse" id="myNavbar" style ="margin: 0%;">
+				<div class="collapse navbar-collapse" id="myNavbar"
+					style="margin: 0%;">
 
 					<ul class="nav navbar-nav" style="">
 						<%
@@ -174,100 +190,71 @@ footer {
 						style="position: relative; top: 10px;">
 						<span class="glyphicon glyphicon-search"></span>
 					</button>
-
 				</div>
+				</nav>
 		</div>
-		</nav>
-
-		<%
-			ProdottoDAO p = new ProdottoDAO();
-			Prodotto x = p.doRetriveByKey("4138789652");
-			String j = x.getImmagine();
-		%>
 		
-		<br><br>
-		<div class="container">
-			<h1 align="center" style="color: lightblue">USATO</h1>
-			<div class="row">
-				<div class="col-sm-4">
-					<div class="panel panel-primary">
-						<div class="panel-heading">BLACK FRIDAY DEAL</div>
-						<div class="panel-body">
-							<img src="data:image/jpg;base64,<%=j%>" class="img-responsive"
-								style="width: 100%" alt="Image">
-						</div>
-						<div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="panel panel-danger">
-						<div class="panel-heading">BLACK FRIDAY DEAL</div>
-						<div class="panel-body">
-							<img src="data:image/jpg;base64,<%=j%>" class="img-responsive"
-								style="width: 100%" alt="Image">
-						</div>
-						<div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="panel panel-success">
-						<div class="panel-heading">BLACK FRIDAY DEAL</div>
-						<div class="panel-body">
-							<img src="data:image/jpg;base64,<%=j%>" class="img-responsive"
-								style="width: 100%" alt="Image">
-						</div>
-						<div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-					</div>
-				</div>
-			</div>
-		</div>
+
+
+
 		<br>
-
-		<div class="container">
+		<br>
+		<div class="container" >
+			<h1 class="header">prodotti usati</h1>
 			<div class="row">
-				<h1 align="center" style="color: lightblue">NUOVO</h1>
+				<%
+			
+			ArrayList<Prodotto> x = p.doRetriveByCond("stato='Usato'");
+				for(Prodotto y: x){
+					if(y==null) System.out.print("null"); 
+					else j = y.getImmagine();
+					%>
+
 				<div class="col-sm-4">
 					<div class="panel panel-primary">
-						<div class="panel-heading">BLACK FRIDAY DEAL</div>
+						<div class="panel-heading"><%=y.getNome() %></div>
 						<div class="panel-body">
 							<img src="data:image/jpg;base64,<%=j%>" class="img-responsive"
-								style="width: 100%" alt="Image">
+								style="width:100%; height: 40%;" alt="Image">
 						</div>
 						<div class="panel-footer">Buy 50 mobiles and get a gift card</div>
 					</div>
 				</div>
-				<div class="col-sm-4">
-					<div class="panel panel-primary">
-						<div class="panel-heading">BLACK FRIDAY DEAL</div>
-						<div class="panel-body">
-							<img src="data:image/jpg;base64,<%=j%>" class="img-responsive"
-								style="width: 100%" alt="Image">
-						</div>
-						<div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="panel panel-primary">
-						<div class="panel-heading">BLACK FRIDAY DEAL</div>
-						<div class="panel-body">
-							<img src="data:image/jpg;base64,<%=j%>" class="img-responsive"
-								style="width: 100%" alt="Image">
-						</div>
-						<div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-					</div>
-				</div>
+				<% } %>
 			</div>
 		</div>
 
-	</div>
+		
 
-	<br>
-	<br>
+		<br> <br>
+		
+		<div class="container" >
+			<h1 class="header">prodotti nuovi</h1>
+			<div class="row">
+				<%
+			
+			x = p.doRetriveByCond("stato='Nuovo'");
+				for(Prodotto y: x){
+					if(y==null) System.out.print("null"); 
+					else j = y.getImmagine();
+					%>
 
+				<div class="col-sm-4">
+					<div class="panel panel-primary">
+						<div class="panel-heading"><%=y.getNome() %></div>
+						<div class="panel-body">
+							<img src="data:image/jpg;base64,<%=j%>" class="img-responsive"
+								style="width:100%; height: 40%;" alt="Image">
+						</div>
+						<div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+					</div>
+				</div>
+				<% } %>
+			</div>
+		</div>
 
-	<footer class="container-fluid text-center">
-		<p>Footer Text</p>
-	</footer>
-
+		<footer class="container-fluid text-center">
+			<p>Footer Text</p>
+		</footer>
 </body>
 </html>
