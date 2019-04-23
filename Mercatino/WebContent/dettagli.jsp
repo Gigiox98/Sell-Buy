@@ -3,7 +3,7 @@
 
 <html lang="en">
 <head>
-<title>Homepage</title>
+<title>Dettagli</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -95,24 +95,29 @@ footer {
 	padding: 0.5%;
 	border: 2px solid blue;
 }
+
+.my_span {
+	font-family: helvetica;
+	margin-left: 10px;
+	font-size: 18px;
+	color: #337ab7;	
+}
+
 </style>
 </head>
 <body>
 	<%
 		String username = (String) session.getAttribute("username");
-		ProdottoDAO p = new ProdottoDAO();
-		String j = "";
+		Prodotto p = (Prodotto) request.getAttribute("prodotto");
+		String j = p.getImmagine();
+		
+		UtenteDAO du = new UtenteDAO();
+		Utente venditore = du.doRetriveByKey(p.getCod_venditore());
+		
 	%>
-
-
-	<div class="container-fluid" style="">
-		<img src="Immagini/HomeTop.PNG" class="img img-responsive"
-			style="width: 100%; margin: none;">
-	</div>
-
 	<div class="container-fluid fixed-top">
 		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
-			<a class="btn btn-success active" href="#">Home</a>
+			<a class="btn btn-success" href="HomePage.jsp">Home</a>
 			<%
 				if (username == null) {
 			%>
@@ -175,20 +180,6 @@ footer {
 							}
 						%>
 					</ul>
-
-					<span class="navbar-brand " style="color: rgb(242, 238, 0);">Filtro
-						Ricerca</span> <input type="text" class="my_input" placeholder="Prodotto">
-					<select class="my_select">
-						<option>Zona</option>
-						<option>Zona</option>
-						<option>Zona</option>
-						<option>Zona</option>
-
-					</select>
-					<button type="submit" class="btn btn-success btn-md"
-						style="position: relative; top: 10px;">
-						<span class="glyphicon glyphicon-search"></span>
-					</button>
 				</div>
 			</nav>
 		</div>
@@ -198,76 +189,50 @@ footer {
 
 		<br> <br>
 		<div class="container">
-			<h1 class="header">prodotti usati</h1>
+			<h1 class="header">Prodotto <%=p.getCodice()%></h1>
 			<div class="row">
-				<%
-					ArrayList<Prodotto> x = p.doRetriveByCond("stato='Usato'");
-					for (Prodotto y : x) {
-						if (y == null)
-							System.out.print("null");
-						else
-							j = y.getImmagine();
-				%>
+				
 
-				<div class="col-sm-4">
+				<div class="col-sm-12">
 					<div class="panel panel-primary">
-						<div class="panel-heading"><%=y.getNome()%></div>
+						<div class="panel-heading"><%=p.getNome()%></div>
 						<div class="panel-body">
-							<img src="data:image/jpg;base64,<%=j%>" class="img-responsive"
-								style="width: 100%; height: 40%;" alt="Image">
+							<div class="col-sm-4">
+								<img src="data:image/jpg;base64,<%=j%>" class="img-responsive" style="width: 100%; height: 40%;" alt="Image">
+							</div>
+							<div class = "col-sm-8">
+								<span class="my_span">Categoria: <%=p.getCod_categoria() %></span><br>
+								<span class="my_span">Descrizione: <%=p.getDescrizione() %></span><br>
+								<span class="my_span">Prezzo: <%=p.getPrezzo() %> &euro;</span><br>
+								<span class="my_span">Località: <%=p.getLocalità() %></span><br>
+								<span class="my_span">Stato Prodotto: <%=p.getStato() %></span><br>
+								<span class="my_span">Data Inserimento: <%=p.getData_ins() %></span><br>
+								<span  class="my_span">Venditore: <%= venditore.getUsername()%></span><br>
+								<br><br><br><br>
+							<%if(username!=null){ %> 
+								<%if(p.getQuantità() > 0){ %> 
+									<form action="AddToCart" method="get">
+									<input type="hidden" name="code" value="<%=p.getCodice()%>">
+									<button class="btn btn-primary"><span class="glyphicon glyphicon-shopping-cart"></span>Aggiungi al carrello</button>
+									</form>
+								<%} else{ %>
+									<span class="my_span">Prodotto non disponibile</span>
+								<%}
+								
+							} else {%>
+								<span class="my_span">Accedi/Registrati per cominciare ad acquistare</span>
+							<%}%>
+							</div>
 						</div>
 						<div class="panel-footer">
-							<form action="dettagli" method="get">
-								<input type="hidden" name="code" value="<%=y.getCodice()%>">
-								<input type="submit" class="btn btn-primary btn-md"
-									value="Dettagli Prodotto">
-							</form>
+						
+						
 						</div>
 					</div>
 				</div>
-				<%
-					}
-				%>
 			</div>
 		</div>
 
-
-
-		<br> <br>
-
-		<div class="container">
-			<h1 class="header">prodotti nuovi</h1>
-			<div class="row">
-				<%
-					x = p.doRetriveByCond("stato='Nuovo'");
-					for (Prodotto y : x) {
-						if (y == null)
-							System.out.print("null");
-						else
-							j = y.getImmagine();
-				%>
-
-				<div class="col-sm-4">
-					<div class="panel panel-primary">
-						<div class="panel-heading"><%=y.getNome()%></div>
-						<div class="panel-body">
-							<img src="data:image/jpg;base64,<%=j%>" class="img-responsive"
-								style="width: 100%; height: 40%;" alt="Image">
-						</div>
-						<div class="panel-footer">
-							<form action="dettagli" method="get">
-								<input type="hidden" name="code" value="<%=y.getCodice()%>">
-								<input type="submit" class="btn btn-primary btn-md"
-									value="Dettagli Prodotto">
-							</form>
-						</div>
-					</div>
-				</div>
-				<%
-					}
-				%>
-			</div>
-		</div>
 
 		<footer class="container-fluid text-center">
 			<p>Footer Text</p>
