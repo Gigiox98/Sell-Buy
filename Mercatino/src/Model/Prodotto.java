@@ -3,6 +3,7 @@ package Model;
 public class Prodotto 
 {
 	private String codice;
+	private String nome;
 	private int quantità;
 	private double prezzo;
 	private String descrizione;
@@ -14,9 +15,10 @@ public class Prodotto
 	private String immagine;  
 		
 	
-	public Prodotto(String codice, int quantità, double prezzo, String descrizione, String località,
+	public Prodotto(String codice, String nome,  int quantità, double prezzo, String descrizione, String località,
 			String data_ins, String stato, String cod_venditore, String cod_categoria,String immagine) {
 		this.codice = codice;
+		this.nome = nome;
 		this.quantità = quantità;
 		this.prezzo = prezzo;
 		this.descrizione = descrizione;
@@ -34,6 +36,16 @@ public class Prodotto
 
 	public void setImmagine(String immagine) {
 		this.immagine = immagine;
+	}
+	
+	
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getCod_venditore() {
