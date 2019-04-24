@@ -1,4 +1,4 @@
-package Controller;
+package Servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -60,14 +60,14 @@ public class Filtro2 extends HttpServlet {
 				String query="";
 				
 				if(nome != null) {
-					query = query + "(nome LIKE '%"+nome+"%' OR descrizione LIKE '%"+nome+"%)' ";
+					query = query + "(nome LIKE '%"+nome+"%' OR descrizione LIKE '%"+nome+"%') ";
 					
 				} 
 				
 				
 				if(categoria != null) {
 					if(!query.equals("")) query = query + "AND ";
-					query = query + "categoria = '"+ categoria + "' ";
+					query = query + "nome_categoria = '"+ categoria + "' ";
 				}
 				
 				if(prezzo != null) {
@@ -82,20 +82,20 @@ public class Filtro2 extends HttpServlet {
 				
 				if((stato!=null) && (stato2 != null)){
 					if(!query.equals("")) query = query + "AND ";
-					query = query + "(stato = 'usato' OR stato = 'nuovo');";
+					query = query + "(stato = 'usato' OR stato = 'nuovo')";
 				} else if(stato != null){
 					if(!query.equals("")) query = query + "AND ";
-					query = query + "stato = 'usato';";
+					query = query + "stato = 'usato'";
 				} else if(stato2 != null){
 					if(!query.equals("")) query = query + "AND ";
-					query = query + "stato = 'nuovo';";
+					query = query + "stato = 'nuovo'";
 				}
-				
+				System.out.println(query);
 				result = p.doRetriveByCond(query);
 			}
 			
 			request.setAttribute("prodotti", result);
-			RequestDispatcher view = request.getRequestDispatcher("RisultatiRicerca.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("Filtro.jsp");
 			view.forward(request, response);
 		}
 
