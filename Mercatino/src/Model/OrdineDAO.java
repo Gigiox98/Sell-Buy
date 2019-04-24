@@ -7,12 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class OrdineDAO
-{
+public class OrdineDAO {
 	final String DB_URL_with_SSL = "jdbc:mysql://localhost:3306/sellbuy?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	final String USER = "root";
-	final String PASS = "Rompicapo98";
-	
+	final String PASS = "pippo";
+
 	public void doSave(Ordine ord) throws SQLException {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -55,7 +54,7 @@ public class OrdineDAO
 
 		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
 			try (Statement stmt = conn.createStatement()) {
-				String query = "select codice__ordine from ordine where codice_ordine like '" + ord.getCodice() + "';";
+				String query = "select codice_ordine from ordine where codice_ordine like '" + ord.getCodice() + "';";
 				ResultSet rs = stmt.executeQuery(query);
 				if (!rs.next()) {
 					String query2 = "insert into ordine(codice_ordine, indirizzo_spedizione,"
@@ -111,6 +110,7 @@ public class OrdineDAO
 	}
 
 	public Ordine doRetriveByKey(String key) throws SQLException {
+		Ordine ord;
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -142,7 +142,8 @@ public class OrdineDAO
 	}
 
 	public ArrayList<Ordine> doRetriveByCond(String cond) throws SQLException {
-
+		System.out.println("Sono qui");
+		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		}
@@ -152,9 +153,13 @@ public class OrdineDAO
 
 		}
 		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
-			ArrayList<Ordine> list = new ArrayList<>();
+			System.out.println(cond);
+			ArrayList<Ordine> list = new ArrayList<Ordine>();
 			try (Statement stmt = conn.createStatement()) {
-				String query = "select * from ordine where" + cond + ";";
+			
+				String query = "select * from ordine where " + cond + ";";
+				System.out.println(query);
+				
 				ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
 					list.add(new Ordine(rs.getString("codice_ordine"), rs.getString("indirizzo_spedizione"), 
@@ -173,6 +178,7 @@ public class OrdineDAO
 	}
 
 	public ArrayList<Ordine> doRetriveAll() throws SQLException {
+
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
