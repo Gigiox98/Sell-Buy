@@ -186,7 +186,19 @@ footer {
       					</li>
       					</ul>
       			   <%}
+      			   else
+      				   {
       				%>
+      					<ul class="nav navbar-nav navbar-right">					
+     				 	<li class="dropdown">
+       				 	<a href="" style="color: rgb(242, 238, 0);" class="glyphicon glyphicon-align-justify" class="dropdown-toggle" data-toggle="dropdown">
+       				 	</a>
+        				<ul class="dropdown-menu">
+         			 	<li><a href="Filtro di ricerca avanzata.jsp">Ricerca Avanzata</a></li>
+        				</ul>
+      					</li>
+      					</ul>
+      				<%} %>
 				</div>
 				</nav>
 		</div>
