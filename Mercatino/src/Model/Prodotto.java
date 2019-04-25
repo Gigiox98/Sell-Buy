@@ -2,8 +2,8 @@ package Model;
 
 public class Prodotto 
 {
-	private String codice;
 	private String nome;
+	private String codice;
 	private int quantità;
 	private double prezzo;
 	private String descrizione;
@@ -15,10 +15,11 @@ public class Prodotto
 	private String immagine;  
 		
 	
-	public Prodotto(String codice, String nome,  int quantità, double prezzo, String descrizione, String località,
-			String data_ins, String stato, String cod_venditore, String cod_categoria,String immagine) {
+	public Prodotto(String nome,String codice, int quantità, double prezzo, String descrizione, String località,
+			String data_ins, String stato, String cod_venditore, String cod_categoria,String immagine) 
+	{
+		this.nome=nome;
 		this.codice = codice;
-		this.nome = nome;
 		this.quantità = quantità;
 		this.prezzo = prezzo;
 		this.descrizione = descrizione;
@@ -36,16 +37,6 @@ public class Prodotto
 
 	public void setImmagine(String immagine) {
 		this.immagine = immagine;
-	}
-	
-	
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 
 	public String getCod_venditore() {
@@ -105,6 +96,14 @@ public class Prodotto
 	}
 	public void setStato(String stato) {
 		this.stato = stato;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 	
 	

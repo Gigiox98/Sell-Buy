@@ -56,7 +56,7 @@ public class Login extends HttpServlet {
 				{
 					session.setMaxInactiveInterval(6*60);
 					session.setAttribute("username", login);
-					response.sendRedirect("HomePage.jsp");
+					response.sendRedirect("HomePage2.jsp");
 				}
 			}
 				

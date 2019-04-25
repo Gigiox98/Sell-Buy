@@ -1,4 +1,4 @@
-package Controller;
+package Servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -31,26 +31,28 @@ public class dettagli extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		String codice = (String) request.getParameter("code");
-		System.out.println(codice);
 		ProdottoDAO dao = new ProdottoDAO();
-		try {
+		try 
+		{
 			Prodotto x = dao.doRetriveByKey(codice);
-			System.out.println(x.getCodice());
 			request.setAttribute("prodotto",  x);
 			RequestDispatcher view = request.getRequestDispatcher("dettagli.jsp");
 			view.forward(request, response);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			response.sendRedirect("HomePage.jsp");
+		} 
+		catch (SQLException e) 
+		{
+			response.sendRedirect("HomePage2.jsp");
 		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

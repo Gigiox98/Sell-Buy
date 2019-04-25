@@ -27,6 +27,6 @@ public class registration extends HttpServlet {
 				 request.getParameter("username"), request.getParameter("email"), adminflag);
 		UtenteDAO dao = new UtenteDAO();
 		dao.doSave(x);
-		response.sendRedirect("HomePage.jsp");
+		response.sendRedirect("HomePage2.jsp");
 	}
 }
