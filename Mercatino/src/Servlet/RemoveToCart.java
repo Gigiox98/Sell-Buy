@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import Model.Ordine;
 import Model.OrdineDAO;
+import Model.Prodotto;
+import Model.ProdottoDAO;
 
 /**
  * Servlet implementation class RemoveToCart
@@ -33,11 +35,20 @@ public class RemoveToCart extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String order = request.getParameter("order");
-		Ordine x = new Ordine(order, "", "", 0, 0, "", "", "");
 		
-		OrdineDAO dao = new OrdineDAO();
+		
 		
 		try {
+			ProdottoDAO d = new ProdottoDAO();
+			OrdineDAO dao = new OrdineDAO();
+			Ordine x = dao.doRetriveByKey(order);
+			
+			Prodotto p = d.doRetriveByKey(x.getCodProd());
+			p.setQuantità(p.getQuantità() + x.getQuantitaArt());
+			
+			d.doSaveOrUpdate(p);
+			
+			System.out.println("I'm Here");
 			dao.doDelete(x);
 			response.sendRedirect("Carrello.jsp");
 		} catch (SQLException e) {
