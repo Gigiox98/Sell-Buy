@@ -16,12 +16,10 @@
 body {
 	background-image: url('Immagini/sfondo.jpg');
 }
-
 a {
 	color: rgb(242, 238, 0);
 	font-size: 15px
 }
-
 a:hover {
 	background: grey;
 }
@@ -30,26 +28,22 @@ a:hover {
 	margin-bottom: 0;
 	border-radius: 0;
 }
-
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 .row.content {
 	height: 450px
 }
-
 /* Set gray background color and 100% height */
 .sidenav {
 	padding-top: 20px;
 	background-color: #f1f1f1;
 	height: 100%;
 }
-
 /* Set black background color, white text and some padding */
 footer {
 	background-color: #555;
 	color: white;
 	padding: 15px;
 }
-
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
 	.sidenav {
@@ -63,7 +57,6 @@ footer {
 		background: red;
 	}
 }
-
 .my_input {
 	position: relative;
 	top: 10px;
@@ -73,7 +66,6 @@ footer {
 	border: auto;
 	border-radius: 10px;
 }
-
 .my_select {
 	position: relative;
 	top: 10px;
@@ -83,7 +75,6 @@ footer {
 	border: auto;
 	border-radius: 10px;
 }
-
 .header {
 	font-family: helvetica;
 	font-style: italic;
@@ -95,7 +86,6 @@ footer {
 	padding: 0.5%;
 	border: 2px solid blue;
 }
-
 .my_span {
 	font-family: helvetica;
 	margin-left: 10px;
@@ -110,16 +100,14 @@ footer {
 		String username = (String) session.getAttribute("username");
 		OrdineDAO ordDAO = new OrdineDAO();
 		ProdottoDAO prodDAO = new ProdottoDAO();
-
-		ArrayList<Ordine> carrello = ordDAO
-				.doRetriveByCond("username_a = '" + username + "' AND stato = 'in carrello'");
+		ArrayList<Ordine> carrello = ordDAO.doRetriveByCond("username_a = '" + username + "' AND stato = 'in carrello'");
 		if (carrello == null)
 			System.out.print("null Ord Array");
 		String j = "";
 	%>
 	<div class="container-fluid fixed-top">
 		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
-			<a class="btn btn-success" href="HomePage.jsp">Home</a> <a
+			<a class="btn btn-success" href="HomePage2.jsp">Home</a> <a
 				class="btn btn-success" href="vendi.jsp">Vendi</a> <a
 				class="btn btn-success" href="Storico.jsp">Storico</a> <a
 				class="btn btn-success" href="Logout">Log-out</a> <a
@@ -127,7 +115,8 @@ footer {
 		</div>
 		<br>
 		<%
-			for (Ordine x : carrello) {
+			for (Ordine x : carrello)
+			{
 				Prodotto p = prodDAO.doRetriveByKey(x.getCodProd());
 				j = p.getImmagine();
 		%>
@@ -148,12 +137,18 @@ footer {
 							</span> <br> <span class="my_span">Prezzo Unitario: <%=p.getPrezzo()%>
 								&euro;
 							</span> <span class="my_span">Venditore: <%=p.getCod_venditore()%></span>
-							<br> <br> <br> <br>
-
+							<form action="Acquista" method="post">
+								<button type="submit" class="btn btn-success btn-md"
+								style="position: relative; left: 10px; top: 10px;">
+								<span class="glyphicon glyphicon-ok"></span> Acquista
+								</button>
+							</form>
 						</div>
 					</div>
 					<div class="panel-footer">
 						<form action="RemoveToCart" method="post">
+     						 <label style="position: relative; left: 10px; top: 10px;">Quantità:</label>
+							<input style="position: relative; left: 10px; top: 10px;" type="number" name="quantità" min="1" max="<%= x.getQuantitaArt() %>" step="1">
 							<input type ="hidden" name = "order" value = "<%=x.getCodice()%>">
 							<button type="submit" class="btn btn-success btn-md"
 								style="position: relative; left: 10px; top: 10px;">
