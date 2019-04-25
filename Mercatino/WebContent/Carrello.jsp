@@ -107,7 +107,7 @@ footer {
 	%>
 	<div class="container-fluid fixed-top">
 		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
-			<a class="btn btn-success" href="HomePage2.jsp">Home</a> <a
+			<a class="btn btn-success" href="HomePage.jsp">Home</a> <a
 				class="btn btn-success" href="vendi.jsp">Vendi</a> <a
 				class="btn btn-success" href="Storico.jsp">Storico</a> <a
 				class="btn btn-success" href="Logout">Log-out</a> <a
@@ -137,7 +137,8 @@ footer {
 							</span> <br> <span class="my_span">Prezzo Unitario: <%=p.getPrezzo()%>
 								&euro;
 							</span> <span class="my_span">Venditore: <%=p.getCod_venditore()%></span>
-							<form action="Acquista" method="post">
+							<form action="acquista.jsp" method="post">
+								<input type ="hidden" name = "order" value = "<%=x.getCodice()%>">
 								<button type="submit" class="btn btn-success btn-md"
 								style="position: relative; left: 10px; top: 10px;">
 								<span class="glyphicon glyphicon-ok"></span> Acquista
@@ -148,7 +149,7 @@ footer {
 					<div class="panel-footer">
 						<form action="RemoveToCart" method="post">
      						 <label style="position: relative; left: 10px; top: 10px;">Quantità:</label>
-							<input style="position: relative; left: 10px; top: 10px;" type="number" name="quantità" min="1" max="<%= x.getQuantitaArt() %>" step="1">
+							<input style="position: relative; left: 10px; top: 10px;" type="number" name="quantità" placeholder="1" min="1" max="<%= x.getQuantitaArt() %>" step="1">
 							<input type ="hidden" name = "order" value = "<%=x.getCodice()%>">
 							<button type="submit" class="btn btn-success btn-md"
 								style="position: relative; left: 10px; top: 10px;">
