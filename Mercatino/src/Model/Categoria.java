@@ -1,11 +1,10 @@
 package Model;
 
-public class Categoria 
-{
+public class Categoria {
 	private String nome;
 	
-	public Categoria(String nome) 
-	{
+	public Categoria(String nome) {
+		super();
 		this.nome = nome;
 	}
 	

@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 public class CategoriaDAO {
 
-	final String DB_URL_with_SSL = "jdbc:mysql://localhost:3306/sellbuy?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	final String DB_URL_with_SSL = "jdbc:mysql://localhost:3306/sellbuy?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	final String USER = "root";
-	final String PASS = "Rompicapo98";
+	final String PASS = "pippo";
 
 	public void doSave(Categoria cat) throws SQLException {
 		try {
@@ -25,10 +25,10 @@ public class CategoriaDAO {
 
 		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
 			try (Statement stmt = conn.createStatement()) {
-				String query = "select nome_categoria from categoria where nome_categoria like '" + cat.getNome() + "';";
+				String query = "select categoria from categoria where categoria like '" + cat.getNome() + "';";
 				ResultSet rs = stmt.executeQuery(query);
 				if (!rs.next()) {
-					String query2 = "insert into categoria(nome_categoria) values ('"+cat.getNome()+ "');";
+					String query2 = "insert into categoria(categoria) values ('" + cat.getNome() + "');";
 					stmt.executeUpdate(query2);
 				}
 			}
@@ -51,13 +51,13 @@ public class CategoriaDAO {
 
 		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
 			try (Statement stmt = conn.createStatement()) {
-				String query = "select nome_categoria from categoria where nome_categoria like '" + cat.getNome() + "';";
+				String query = "select categoria from categoria where categoria like '" + cat.getNome() + "';";
 				ResultSet rs = stmt.executeQuery(query);
 				if (!rs.next()) {
-					String query2 = "insert into categoria(nome_categoria) values ('"+ cat.getNome() + "');";
+					String query2 = "insert into categoria(categoria) values ('" + cat.getNome() + "');";
 					stmt.executeUpdate(query2);
 				} else {
-					String query3 = "update categoria set nome_categoria = '" + cat.getNome() + "' where nome_categoria = '"
+					String query3 = "update categoria set categoria = '" + cat.getNome() + "' where categoria = '"
 							+ cat.getNome() + "';";
 					stmt.executeUpdate(query3);
 
@@ -82,10 +82,10 @@ public class CategoriaDAO {
 
 		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
 			try (Statement stmt = conn.createStatement()) {
-				String query = "select nome_categoria from categoria where nome_categoria like '" + cat.getNome() + "';";
+				String query = "select categoria from categoria where codice_c like '" + cat.getNome() + "';";
 				ResultSet rs = stmt.executeQuery(query);
 				if (rs.next()) {
-					String query2 = "delete from categoria where nome_categoria = '" + cat.getNome() + "';";
+				String query2 = "delete from categoria where categoria = '" + cat.getNome() + "';";
 					stmt.executeUpdate(query2);
 
 				}
@@ -99,6 +99,7 @@ public class CategoriaDAO {
 	}
 
 	public Categoria doRetriveByKey(String key) throws SQLException {
+		Categoria cat;
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -111,10 +112,10 @@ public class CategoriaDAO {
 
 		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
 			try (Statement stmt = conn.createStatement()) {
-				String query = "select * from categoria where nome_categoria like '" + key + "';";
+				String query = "select * from categoria where categoria like '" + key + "';";
 				ResultSet rs = stmt.executeQuery(query);
 				if (rs.next()) {
-					return new Categoria(rs.getString("nome_categoria"));
+					return new Categoria(rs.getString("categoria"));
 				} else
 					return null;
 			}
@@ -128,6 +129,7 @@ public class CategoriaDAO {
 	}
 
 	public ArrayList<Categoria> doRetriveByCond(String cond) throws SQLException {
+		Categoria cat;
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -143,7 +145,7 @@ public class CategoriaDAO {
 				String query = "select * from categoria where" + cond + ";";
 				ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
-					list.add(new Categoria(rs.getString("nome_categoria")));
+					list.add(new Categoria(rs.getString("categoria")));
 				}
 				return list;
 			}
@@ -157,6 +159,7 @@ public class CategoriaDAO {
 	}
 
 	public ArrayList<Categoria> doRetriveAll() throws SQLException {
+		Categoria cat;
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -173,7 +176,7 @@ public class CategoriaDAO {
 				String query = "select * from categoria;";
 				ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
-					list.add(new Categoria(rs.getString("nome_categoria")));
+					list.add(new Categoria(rs.getString("categoria")));
 				}
 				return list;
 			}
@@ -187,4 +190,3 @@ public class CategoriaDAO {
 	}
 
 }
-

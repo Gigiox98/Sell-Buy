@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 public class UtenteDAO
 {
-	final String DB_URL_with_SSL = "jdbc:mysql://localhost:3306/sellbuy?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	final String DB_URL_with_SSL = "jdbc:mysql://localhost:3306/sellbuy?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	final String USER = "root";
-	final String PASS = "Rompicapo98";
+	final String PASS = "pippo";
 	
 	public boolean doSave(Utente o) 
 	{
@@ -85,7 +85,7 @@ public class UtenteDAO
 		        {
 		        	String query2="update utente set nome='"+o.getNome()+"', cognome='"
 		        +o.getCognome()+"', via='"+o.getVia()+"', civico='"+o.getN_civico()+"', città='"+o.getCittà()
-		        +"', adminflag='"+o.getAdmin_flag()+"', password='"+o.getPassword()+"', email='"+o.getEmail()+"' where username='"+o.getUsername()+"');";
+		        +"', adminflag="+o.getAdmin_flag()+", password='"+o.getPassword()+"', email='"+o.getEmail()+"' where username='"+o.getUsername()+"';";
 		  		          stmt.executeUpdate(query2);
 		        }
 		        
@@ -115,8 +115,8 @@ public class UtenteDAO
 		    {
 		      try (Statement stmt = conn.createStatement()) 
 		      {
-		        String query= "delete from utente where username like '"+o.getUsername()+"';";
-		        stmt.executeQuery(query);
+		        String query= "delete from utente where username = '"+o.getUsername()+"';";
+		        stmt.executeUpdate(query);
 		      }
 		    }
 	}
