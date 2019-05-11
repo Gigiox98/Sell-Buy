@@ -1,4 +1,4 @@
-package Servlet;
+package Controller;
 
 import java.io.*;
 import Model.*;
@@ -26,7 +26,13 @@ public class registration extends HttpServlet {
 				 Integer.parseInt(request.getParameter("civico")), request.getParameter("citta"), 
 				 request.getParameter("username"), request.getParameter("email"), adminflag);
 		UtenteDAO dao = new UtenteDAO();
-		dao.doSave(x);
-		response.sendRedirect("HomePage2.jsp");
+		
+		
+		
+		Boolean ack = dao.doSave(x);
+		
+		request.setAttribute("Controllo", ack);
+		RequestDispatcher view = request.getRequestDispatcher("result.jsp");
+		view.forward(request, response);
 	}
 }

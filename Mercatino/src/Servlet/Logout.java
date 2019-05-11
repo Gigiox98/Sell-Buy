@@ -1,4 +1,4 @@
-package Servlet;
+package Controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -30,7 +30,7 @@ public class Logout extends HttpServlet {
 	{
 		HttpSession session=request.getSession();
 		session.invalidate();
-		response.sendRedirect("HomePage2.jsp");
+		response.sendRedirect("HomePage.jsp");
 	}
 
 	/**

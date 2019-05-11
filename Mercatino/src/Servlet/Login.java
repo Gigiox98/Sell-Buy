@@ -1,4 +1,4 @@
-package Servlet;
+package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -46,6 +46,7 @@ public class Login extends HttpServlet {
 				 request.setAttribute("esito","negativo");
 				 RequestDispatcher view=request.getRequestDispatcher("login.jsp");
 				 view.forward(request, response);
+				 return;
 			}
 			
 			else
@@ -54,9 +55,13 @@ public class Login extends HttpServlet {
 				HttpSession session=request.getSession();
 				synchronized(session)
 				{
-					session.setMaxInactiveInterval(6*60);
+					session.setMaxInactiveInterval(60*6);
+					
 					session.setAttribute("username", login);
-					response.sendRedirect("HomePage2.jsp");
+					if(user.get(0).getAdmin_flag() == 1) session.setAttribute("admin", true);
+					else session.setAttribute("admin", false);
+					
+					response.sendRedirect("HomePage.jsp");
 				}
 			}
 				

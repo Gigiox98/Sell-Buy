@@ -2,6 +2,7 @@ package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,21 +10,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import Model.Prodotto;
-import Model.ProdottoDAO;
+import Model.Utente;
+import Model.UtenteDAO;
 
 /**
- * Servlet implementation class dettagli
+ * Servlet implementation class GestioneUtenza
  */
-@WebServlet("/dettagli")
-public class dettagli extends HttpServlet {
+@WebServlet("/GestioneUtenza")
+public class GestioneUtenza extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public dettagli() {
+    public GestioneUtenza() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,18 +34,21 @@ public class dettagli extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String codice = (String) request.getParameter("code");
-		System.out.println(codice);
-		ProdottoDAO dao = new ProdottoDAO();
-		try {
-			Prodotto x = dao.doRetriveByKey(codice);
-			System.out.println(x.getCodice());
-			request.setAttribute("prodotto",  x);
-			RequestDispatcher view = request.getRequestDispatcher("dettagli.jsp");
-			view.forward(request, response);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			response.sendRedirect("HomePage.jsp");
+		UtenteDAO dao = new UtenteDAO();
+		HttpSession session = request.getSession();
+		
+		synchronized (session) {
+			String username = (String) session.getAttribute("username");
+			try {
+				ArrayList<Utente> users = dao.doRetriveByCond("username != '"+username+"'");
+				request.setAttribute("users", users);
+				RequestDispatcher view=request.getRequestDispatcher("/GestioneUtenza.jsp");
+				view.forward(request, response);
+				
+			} catch (SQLException e) {
+				response.sendError(500);
+				e.printStackTrace();
+			}
 		}
 	}
 

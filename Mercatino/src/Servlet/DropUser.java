@@ -3,27 +3,26 @@ package Controller;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Model.Prodotto;
-import Model.ProdottoDAO;
+import Model.Utente;
+import Model.UtenteDAO;
 
 /**
- * Servlet implementation class dettagli
+ * Servlet implementation class DropUser
  */
-@WebServlet("/dettagli")
-public class dettagli extends HttpServlet {
+@WebServlet("/DropUser")
+public class DropUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public dettagli() {
+    public DropUser() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,19 +31,18 @@ public class dettagli extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String codice = (String) request.getParameter("code");
-		System.out.println(codice);
-		ProdottoDAO dao = new ProdottoDAO();
+		String username = request.getParameter("user");
+		UtenteDAO dao = new UtenteDAO();
 		try {
-			Prodotto x = dao.doRetriveByKey(codice);
-			System.out.println(x.getCodice());
-			request.setAttribute("prodotto",  x);
-			RequestDispatcher view = request.getRequestDispatcher("dettagli.jsp");
-			view.forward(request, response);
+			Utente x = dao.doRetriveByCond("username = '"+username+"'").get(0);
+		
+			dao.doDelete(x);
+			response.sendRedirect("GestioneUtenza");
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			response.sendRedirect("HomePage.jsp");
-		}
+			response.sendError(500);
+			e.printStackTrace();
+		}	
 	}
 
 	/**
