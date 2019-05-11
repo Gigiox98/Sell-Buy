@@ -2,8 +2,8 @@ package Model;
 
 public class Prodotto 
 {
-	private String codice;
 	private String nome;
+	private String codice;
 	private int quantità;
 	private double prezzo;
 	private String descrizione;
@@ -12,13 +12,15 @@ public class Prodotto
 	private String stato;
 	private String cod_venditore;
 	private String cod_categoria;
-	private String immagine;  
+	private String immagine; 
+	private int acquistato;
 		
 	
-	public Prodotto(String codice, String nome,  int quantità, double prezzo, String descrizione, String località,
-			String data_ins, String stato, String cod_venditore, String cod_categoria,String immagine) {
+	public Prodotto(String nome,String codice, int quantità, double prezzo, String descrizione, String località,
+			String data_ins, String stato, String cod_venditore, String cod_categoria,String immagine, int acquistato) 
+	{
+		this.nome=nome;
 		this.codice = codice;
-		this.nome = nome;
 		this.quantità = quantità;
 		this.prezzo = prezzo;
 		this.descrizione = descrizione;
@@ -28,24 +30,25 @@ public class Prodotto
 		this.cod_venditore = cod_venditore;
 		this.cod_categoria = cod_categoria;
 		this.immagine=immagine;
+		this.acquistato=acquistato;
 	}
 
+	public int getAcquistato()
+	{
+		return acquistato;
+	}
+	
+	public void setAcquistato(int acquistato)
+	{
+		this.acquistato=acquistato;
+	}
+	
 	public String getImmagine() {
 		return immagine;
 	}
 
 	public void setImmagine(String immagine) {
 		this.immagine = immagine;
-	}
-	
-	
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 
 	public String getCod_venditore() {
@@ -105,6 +108,14 @@ public class Prodotto
 	}
 	public void setStato(String stato) {
 		this.stato = stato;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 	
 	
