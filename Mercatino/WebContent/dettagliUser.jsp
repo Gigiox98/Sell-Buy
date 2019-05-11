@@ -3,10 +3,12 @@
 
 <html lang="en">
 <head>
-<title>Filtro Ricerca Avanzata</title>
+<title>Dettagli Utente</title>
 <link rel="icon" href="Immagini/favicon.png" />
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script
@@ -95,68 +97,62 @@ footer {
 	background-color: white;
 	padding: 0.5%;
 	border: 2px solid blue;
+	margin: 3% 24%;
+}
+.my_container{
+	margin: 0% 24%;
+	padding: 0px;
+	max-width: 52%;
+}
+
+.my_span {
+	font-family: helvetica;
+	margin-left: 10px;
+	font-size: 18px;
+	color: #337ab7;
 }
 </style>
 </head>
 <body>
+	<%
+		String username = request.getParameter("user");
+		UtenteDAO dao = new UtenteDAO();
+		Utente x = dao.doRetriveByCond("username = '"+username+"'").get(0);		
+	%>
+	
+	
 	<div class="container-fluid fixed-top">
 		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
-			<a class="btn btn-success" href="HomePage.jsp">Home</a> <a
-				class="btn btn-success" href="vendi.jsp">Vendi</a> <a
+			<a class="btn btn-success" href="HomePage.jsp">Home</a>
+			<a class="btn btn-success" href="vendi.jsp">Vendi</a> <a
 				class="btn btn-success" href="Storico.jsp">Storico</a> <a
-				class="btn btn-success" href="Logout">Log-out</a> <a
-				class="btn btn-success" href="#">About-us</a>
+				class="btn btn-success" href="Logout">Log-out</a>
+			<a class="btn btn-success" href="GestioneUtenza">Gestione Utenza</a>
 		</div>
-		<div class="col-sm-6"
-			style="background-color: white; border-radius: 10px; margin: 20px; border: 3px solid #337ab7">
-			<h1 align="CENTER">Filtro ricerca avanzata</h1>
-			<form action="Filtro" method="get" enctype="multipart/form-data">
-				<div class="container">
-					<h3>Inserisci i dati per la tua ricerca</h3>
-					<div class="row">
-						<label class="col-sm-2" for="categoria">Categoria:</label> <select
-							class="col-sm-4" name="categoria">
-							<option value="">Nessuna Categoria</option>
-							<%
-								CategoriaDAO categoria = new CategoriaDAO();
-								ArrayList<Categoria> list = categoria.doRetriveAll();
-								for (int i = 0; i < list.size(); i++) {
-									out.print("<option value=\"" + list.get(i).getNome() + "\">" + list.get(i).getNome() + "</option>");
-								}
-							%>
-						</select> <br>
-						<br> <label class="col-sm-2" for="nome">Nome
-							Prodotto:</label> <input class="col-sm-4" type="text"
-							class="form-control" name="nome"> <br>
-						<br> <label class="col-sm-2" for="prezzo">Prezzo:</label> <input
-							class="col-sm-4" type="number" class="form-control" name="prezzo">
-						<br>
-						<br> <label class="col-sm-2" for="quantità">Quantità:</label>
-						<input class="col-sm-4" type="number" class="form-control"
-							name="quantità"> <br>
-						<br> <label class="col-sm-2" for="località">Località:</label>
-						<input class="col-sm-4" type="text" class="form-control"
-							name="località"> <br>
-						<br> <label class="col-sm-2" for="categoria">Stato:</label> <input
-							type="checkbox" name="usato" value="usato" checked> Usato<br>
-						<input type="checkbox" name="nuovo" value="nuovo"> Nuovo<br>
-						<br>
-						<br>
+		
+		<h1 class="header">Dettagli Utente</h1>
+		<div class="container my_container">
+			<div class="row">
 
+
+				<div class="col-sm-12">
+					<div class="panel panel-primary">
+						<div class="panel-heading">Utente <%=x.getUsername()%></div>
+						<div class="panel-body">
+								<span class="my_span">Nome: <%=x.getNome()%></span><br>
+								<span class="my_span">Cognome: <%=x.getCognome()%></span><br>
+								<span class="my_span">Indirizzo: <%=x.getVia()%> N. <%=x.getN_civico() %> <%=x.getCittà()%>
+								</span><br> 
+								
+								<span class="my_span">Email: <%=x.getEmail()%></span><br>
+								<%if(x.getAdmin_flag() == 1){%><span class="my_span">L'utente è amministratore</span>
+								<%}else{ %><span class="my_span">L'utente non è amministratore</span><%} %>
 					</div>
-
-					<input type="submit" class="btn btn-success" value="Inserisci">
-
-
 				</div>
-			</form>
-
+			</div>
 		</div>
-	</div>
+			
+
 
 </body>
 </html>
-
-
-
-

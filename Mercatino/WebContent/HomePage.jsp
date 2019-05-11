@@ -192,7 +192,11 @@ footer {
 							<ul class="dropdown-menu">
 								<li><a href="FiltroRicercaAvanzata.jsp">Ricerca
 										Avanzata</a></li>
-								<%if(admin != null && admin) %> <li><a href="PannelloAmministrazione.jsp">Pannello Amministrazione</a></li>
+								<%if(admin != null && admin){%> 
+									<li><a href="GestioneUtenza" >Gestione Utenza</a></li>
+									<li><a href="">Gestione prodotti più venduti</a></li>
+									<li><a href="">Gestione prodotti meno venduti</a></li>
+								<%} %>
 							</ul>
 					</ul>
 				</div>
