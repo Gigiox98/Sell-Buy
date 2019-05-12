@@ -28,10 +28,10 @@ public class OrdineDAO {
 				ResultSet rs = stmt.executeQuery(query);
 				if (!rs.next()) {
 					String query2 = "insert into ordine(codice_ordine, indirizzo_spedizione,"
-							+ "stato, quantita_articolo, prezzo_acquisto, pagamento, username_a, codice_prodotto) "
+							+ "stato, quantita_articolo, prezzo_acquisto, pagamento, username_a, codice_prodotto, data) "
 							+ "values ('" + ord.getCodice() + "','" + ord.getIndirizzoSped() + "','" + ord.getStato()
 							+ "','" + ord.getQuantitaArt() + "','" + ord.getPrezzoAcquisto() + "','"
-							+ ord.getPaganento() + "','" + ord.getAcquirente() + "','" + ord.getCodProd() + "');";
+							+ ord.getPaganento() + "','" + ord.getAcquirente() + "','" + ord.getCodProd() + "', data = '"+ord.getData()+"');";
 					stmt.executeUpdate(query2);
 				}
 			}
@@ -58,17 +58,17 @@ public class OrdineDAO {
 				ResultSet rs = stmt.executeQuery(query);
 				if (!rs.next()) {
 					String query2 = "insert into ordine(codice_ordine, indirizzo_spedizione,"
-							+ "stato, quantita_articolo, prezzo_acquisto, pagamento, username_a, codice_prodotto) "
+							+ "stato, quantita_articolo, prezzo_acquisto, pagamento, username_a, codice_prodotto, data) "
 							+ "values ('" + ord.getCodice() + "','" + ord.getIndirizzoSped() + "','" + ord.getStato()
 							+ "','" + ord.getQuantitaArt() + "','" + ord.getPrezzoAcquisto() + "','"
-							+ ord.getPaganento() + "','" + ord.getAcquirente() + "','" + ord.getCodProd() + "');";
+							+ ord.getPaganento() + "','" + ord.getAcquirente() + "','" + ord.getCodProd() + "', data = '"+ord.getData()+"');";
 					stmt.executeUpdate(query2);
 				} else {
 					String query3 = "update ordine set" + " indirizzo_spedizione = '" + ord.getIndirizzoSped() + "',"
 							+ " stato = '" + ord.getStato() + "'," + " quantita_articolo = '" + ord.getQuantitaArt()
 							+ "'," + " prezzo_acquisto = '" + ord.getPrezzoAcquisto() + "'," + " pagamento = '"
 							+ ord.getPaganento() + "'," + " username_a = '" + ord.getAcquirente() + "',"
-							+ " codice_prodotto = '" + ord.getCodProd() + "'" + " where codice_ordine = '"
+							+ " codice_prodotto = '" + ord.getCodProd() + "', data = '" + ord.getData() + "'" + " where codice_ordine = '"
 							+ ord.getCodice() + "';";
 					stmt.executeUpdate(query3);
 
@@ -116,6 +116,7 @@ public class OrdineDAO {
 		}
 
 		catch (ClassNotFoundException e) {
+
 			e.printStackTrace();
 
 		}
@@ -127,7 +128,8 @@ public class OrdineDAO {
 				if (rs.next()) {
 					return new Ordine(rs.getString("codice_ordine"), rs.getString("indirizzo_spedizione"),
 							rs.getString("stato"), rs.getInt("quantita_articolo"), rs.getDouble("prezzo_acquisto"),
-							rs.getString("pagamento"), rs.getString("username_a"), rs.getString("codice_prodotto"));
+							rs.getString("pagamento"), rs.getString("username_a"), rs.getString("codice_prodotto"),
+							rs.getString("data"));
 				} else
 					return null;
 			}
@@ -158,7 +160,8 @@ public class OrdineDAO {
 				while (rs.next()) {
 					list.add(new Ordine(rs.getString("codice_ordine"), rs.getString("indirizzo_spedizione"),
 							rs.getString("stato"), rs.getInt("quantita_articolo"), rs.getDouble("prezzo_acquisto"),
-							rs.getString("pagamento"), rs.getString("username_a"), rs.getString("codice_prodotto")));
+							rs.getString("pagamento"), rs.getString("username_a"), rs.getString("codice_prodotto"),
+							rs.getString("data")));
 				}
 				return list;
 			}
@@ -190,7 +193,8 @@ public class OrdineDAO {
 				while (rs.next()) {
 					list.add(new Ordine(rs.getString("codice_ordine"), rs.getString("indirizzo_spedizione"),
 							rs.getString("stato"), rs.getInt("quantita_articolo"), rs.getDouble("prezzo_acquisto"),
-							rs.getString("pagamento"), rs.getString("username_a"), rs.getString("codice_prodotto")));
+							rs.getString("pagamento"), rs.getString("username_a"), rs.getString("codice_prodotto"),
+							rs.getString("data")));
 				}
 				return list;
 			}

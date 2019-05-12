@@ -9,9 +9,10 @@ public class Ordine {
 	private String paganento;
 	private String acquirente;
 	private String codProd;
-	
+	private String data;
+
 	public Ordine(String codice, String indirizzoSped, String stato, int quantitaArt, double prezzoAcquisto,
-			String paganento, String acquirente, String codProd) {
+			String paganento, String acquirente, String codProd, String data) {
 		super();
 		this.codice = codice;
 		this.indirizzoSped = indirizzoSped;
@@ -21,6 +22,7 @@ public class Ordine {
 		this.paganento = paganento;
 		this.acquirente = acquirente;
 		this.codProd = codProd;
+		this.data = data;
 	}
 
 	public String getCodice() {
@@ -49,6 +51,10 @@ public class Ordine {
 
 	public int getQuantitaArt() {
 		return quantitaArt;
+	}
+
+	public String getData() {
+		return data;
 	}
 
 	public void setQuantitaArt(int quantitaArt) {
@@ -86,5 +92,9 @@ public class Ordine {
 	public void setCodProd(String codProd) {
 		this.codProd = codProd;
 	}
-	
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
 }
