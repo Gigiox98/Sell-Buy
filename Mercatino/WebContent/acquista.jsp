@@ -138,11 +138,11 @@ footer {
 						<div class="col-sm-7">
 							<span class="my_span">Codice Prodotto: <%=p.getCodice()%></span><br>
 							<span class="my_span">Nome Prodotto : <%=p.getNome()%></span><br>
-							<span class="my_span">Quantit‡ : <%=x.getQuantitaArt()%></span> <br>
+							<span class="my_span">Quantit√† : <%=x.getQuantitaArt()%></span> <br>
 							<span class="my_span">Prezzo Acquisto: <%=x.getPrezzoAcquisto()%> &euro;</span> <br> 
 							<span class="my_span">Prezzo Unitario: <%=p.getPrezzo()%> &euro; </span> <br>
 							<span class="my_span">Venditore: <%=p.getCod_venditore()%></span><br>
-							<span class="my_span">Zona di Partenza: <%=p.getLocalit‡()%></span>
+							<span class="my_span">Zona di Partenza: <%=p.getLocalit√†()%></span>
 						
 						</div>
 					</div>
@@ -152,7 +152,7 @@ footer {
 							<input type ="hidden" name = "order" value = "<%=x.getCodice()%>">
 							<label style="position: relative; left: 10px; top: 10px;">Indirizzo di Destinazione:</label>
 							<input style="position: relative; left: 10px; top: 10px; width: 22%"type="text" name="indirizzo"
-							placeholder = "<%= y.getVia() + " " + y.getN_civico() + " " + y.getCitt‡()%>">
+							value = "<%= y.getVia() + " " + y.getN_civico() + " " + y.getCitt√†()%>">
 							
 							<label style="position: relative; left: 10px; top: 10px;">Codice carta di credito:</label>
 							<input style="position: relative; left: 10px; top: 10px;" type="text" name="pagamento">
