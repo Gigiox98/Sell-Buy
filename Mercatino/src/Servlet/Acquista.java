@@ -1,4 +1,4 @@
-package Controller;
+package Servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -34,30 +34,19 @@ public class Acquista extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		OrdineDAO ordDAO = new OrdineDAO();
-		ProdottoDAO prodDAO = new ProdottoDAO();
-		Prodotto p;
 		try {
 			
 			Ordine x = ordDAO.doRetriveByKey(request.getParameter("order"));
-			
+			ProdottoDAO product=new ProdottoDAO();
+			Prodotto prodotto=product.doRetriveByKey(x.getCodProd());
+			prodotto.setAcquistato(prodotto.getAcquistato()+x.getQuantitaArt());
+			product.doSaveOrUpdate(prodotto);
 			x.setStato("acquistato");
-			java.util.Date today = new java.util.Date();
-			String data = today.toString();
-			
-			x.setData(data);
-		
 			x.setIndirizzoSped(request.getParameter("indirizzo"));
-			
 			x.setPaganento(request.getParameter("pagamento"));
 			
-			
-			p = prodDAO.doRetriveByKey(x.getCodProd());
 			ordDAO.doSaveOrUpdate(x);
-			
-			p.setAcquistato((p.getAcquistato() + 1));
-			
-			prodDAO.doSaveOrUpdate(p);
-			response.sendRedirect("Storico.jsp");
+			response.sendRedirect("EsitoOrdine.jsp");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
