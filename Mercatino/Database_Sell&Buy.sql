@@ -74,12 +74,11 @@ select * from ordine;
 
 
 create table sconto(
-sconto int,
-codice_p varchar(30),
-FOREIGN KEY(codice_p) REFERENCES prodotto(cod_p)
-on update cascade on delete cascade,
-primary key(sconto, codice_p)
+codice varchar(30) primary key,
+ammontare int,
+flag_utilizzo bool default 0
 );
+
 delete from recensioni;
 create table recensioni(
 codice varchar(15) primary key,
