@@ -3,12 +3,14 @@ package Model;
 public class Sconto 
 {
 	private String codice;
-	private int sconto;
+	private int ammontare;
+	private boolean usato;
 	
-	public Sconto(String codice, int sconto) 
+	public Sconto(String codice, int ammontare, boolean utilizzato) 
 	{
 		this.codice = codice;
-		this.sconto = sconto;
+		this.ammontare = ammontare;
+		this.usato = utilizzato;
 	}
 	
 	public String getCodice() 
@@ -18,13 +20,21 @@ public class Sconto
 	public void setCodice(String codice) {
 		this.codice = codice;
 	}
-	public int getSconto() {
-		return sconto;
+
+	public int getAmmontare() {
+		return ammontare;
 	}
-	public void setSconto(int sconto) {
-		this.sconto = sconto;
+
+	public void setAmmontare(int ammontare) {
+		this.ammontare = ammontare;
 	}
-	
-	
+
+	public boolean isUsato() {
+		return usato;
+	}
+
+	public void setUsato(boolean usato) {
+		this.usato = usato;
+	}
 	
 }
