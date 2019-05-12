@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import Model.Ordine;
 import Model.OrdineDAO;
-import Model.UtenteDAO;
+import Model.Prodotto;
+import Model.ProdottoDAO;
 
 /**
  * Servlet implementation class Acquista
@@ -33,16 +34,30 @@ public class Acquista extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		OrdineDAO ordDAO = new OrdineDAO();
+		ProdottoDAO prodDAO = new ProdottoDAO();
+		Prodotto p;
 		try {
 			
 			Ordine x = ordDAO.doRetriveByKey(request.getParameter("order"));
 			
 			x.setStato("acquistato");
+			java.util.Date today = new java.util.Date();
+			String data = today.toString();
+			
+			x.setData(data);
+		
 			x.setIndirizzoSped(request.getParameter("indirizzo"));
+			
 			x.setPaganento(request.getParameter("pagamento"));
 			
+			
+			p = prodDAO.doRetriveByKey(x.getCodProd());
 			ordDAO.doSaveOrUpdate(x);
-			response.sendRedirect("EsitoOrdine.jsp");
+			
+			p.setAcquistato((p.getAcquistato() + 1));
+			
+			prodDAO.doSaveOrUpdate(p);
+			response.sendRedirect("Storico.jsp");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

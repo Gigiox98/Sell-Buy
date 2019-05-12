@@ -57,20 +57,26 @@ public class AddToCart extends HttpServlet {
 					ArrayList<Ordine> list_order=daoo.doRetriveByCond("codice_prodotto='"+p.getCodice()+"' and username_a='"+username+"' and stato = 'in carrello';");
 					if(list_order.size()==0)
 					{
-						Integer quantit√† = Integer.parseInt(request.getParameter("quantita"));
-						number = p.getQuantit√†();
-						number = number - quantit√†;
-						p.setQuantit√†(number);
+						Integer quantit‡ = Integer.parseInt(request.getParameter("quantita"));
+						number = p.getQuantit‡();
+						number = number - quantit‡;
+						p.setQuantit‡(number);
 						prodottoDao.doSaveOrUpdate(p);
 						String codiceO = generaCodice();
 						String indirizzoSped = "";
 						String stato = "in carrello";
-						double prezzoAcquisto = p.getPrezzo()*quantit√†;
+						double prezzoAcquisto = p.getPrezzo()*quantit‡;
 						String pagamento = "";
 						String acquirente = username;
 						String codProd = p.getCodice();
-						Ordine o = new Ordine(codiceO, indirizzoSped, stato, quantit√†, prezzoAcquisto, pagamento,
-								acquirente, codProd);
+						
+						java.util.Date today = new java.util.Date();
+						String data = today.toString();
+						
+						Ordine o = new Ordine(codiceO, indirizzoSped, stato, quantit‡, prezzoAcquisto, pagamento,
+								acquirente, codProd, data);
+						
+						System.out.println(o.getData());
 						daoo.doSaveOrUpdate(o);
 						response.sendRedirect("Carrello.jsp");
 					}
@@ -78,20 +84,20 @@ public class AddToCart extends HttpServlet {
 					else
 					{
 						Ordine o=list_order.get(0);
-						Integer quantit√† = Integer.parseInt(request.getParameter("quantita"));
-						number = p.getQuantit√†();
-						number = number - quantit√†;
-						p.setQuantit√†(number);
+						Integer quantit‡ = Integer.parseInt(request.getParameter("quantita"));
+						number = p.getQuantit‡();
+						number = number - quantit‡;
+						p.setQuantit‡(number);
 						prodottoDao.doSaveOrUpdate(p);
 						String indirizzoSped = "";
 						String stato = "in carrello";
-						int quantit√†_ord=o.getQuantitaArt()+quantit√†;
-						double prezzoAcquisto = p.getPrezzo()*quantit√†_ord;
+						int quantit‡_ord=o.getQuantitaArt()+quantit‡;
+						double prezzoAcquisto = p.getPrezzo()*quantit‡_ord;
 						String pagamento = "";
 						String acquirente = username;
 						String codProd = p.getCodice();
-						Ordine ord = new Ordine(o.getCodice(), indirizzoSped, stato, quantit√†_ord, prezzoAcquisto, pagamento,
-								acquirente, codProd);
+						Ordine ord = new Ordine(o.getCodice(), indirizzoSped, stato, quantit‡_ord, prezzoAcquisto, pagamento,
+								acquirente, codProd, o.getData());
 						daoo.doSaveOrUpdate(ord);
 						response.sendRedirect("Carrello.jsp");
 					}
