@@ -149,7 +149,7 @@ footer {
 					<div class="panel-footer">
 						<form action="RemoveToCart" method="post">
      						 <label style="position: relative; left: 10px; top: 10px;">Quantità:</label>
-							<input style="position: relative; left: 10px; top: 10px;" type="number" name="quantità" placeholder="1" min="1" max="<%= x.getQuantitaArt() %>" step="1">
+							<input style="position: relative; left: 10px; top: 10px;" type="number" name="quantità" value="1" min="1" max="<%= x.getQuantitaArt() %>" step="1">
 							<input type ="hidden" name = "order" value = "<%=x.getCodice()%>">
 							<button type="submit" class="btn btn-success btn-md"
 								style="position: relative; left: 10px; top: 10px;">

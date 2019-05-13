@@ -16,10 +16,12 @@
 body {
 	background-image: url('Immagini/sfondo.jpg');
 }
+
 a {
 	color: rgb(242, 238, 0);
 	font-size: 15px
 }
+
 a:hover {
 	background: grey;
 }
@@ -57,6 +59,7 @@ footer {
 		background: red;
 	}
 }
+
 .my_input {
 	position: relative;
 	top: 10px;
@@ -66,6 +69,7 @@ footer {
 	border: auto;
 	border-radius: 10px;
 }
+
 .my_select {
 	position: relative;
 	top: 10px;
@@ -75,6 +79,7 @@ footer {
 	border: auto;
 	border-radius: 10px;
 }
+
 .header {
 	font-family: helvetica;
 	font-style: italic;
@@ -106,7 +111,7 @@ footer {
 
 	<div class="container-fluid fixed-top">
 		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
-			<a class="btn btn-success" href="HomePage.jsp">Home</a>
+			<a class="btn btn-success active" href="HomePage2.jsp">Home</a>
 			<%
 				if (username == null) {
 			%>
@@ -262,7 +267,7 @@ footer {
 								style="width: 100%; height: 40%;" alt="Image">
 						</div>
 						<div class="panel-footer">
-							<form action="dettagli" method="post">
+							<form action="dettagli" method="get">
 								<input type="hidden" name="code" value="<%=y.getCodice()%>">
 								<input type="submit" class="btn btn-primary btn-md"
 									value="Dettagli Prodotto">
@@ -278,6 +283,5 @@ footer {
 		<footer class="container-fluid text-center">
 			<p>Footer Text</p>
 		</footer>
-	</div>
 </body>
 </html>

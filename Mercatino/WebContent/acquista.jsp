@@ -65,6 +65,17 @@ footer {
 	}
 }
 
+.header {
+ font-family: helvetica;
+ font-style: italic;
+ text-align: center;
+ font-size: 30px;
+ text-transform: capitalize;
+ color: #337ab7;
+ background-color: white;
+ padding: 0.5%;
+ border: 2px solid blue;
+}
 .my_input {
 	position: relative;
 	top: 10px;
@@ -126,23 +137,23 @@ footer {
 				class="btn btn-success" href="Logout">Log-out</a> <a
 				class="btn btn-success" href="#">About-us</a>
 		</div>
-			<h1 align="CENTER">Acquisto Ordine <%=x.getCodice()%></h1>
-			<div class="col-sm-9">
+			<h1 class= "header" align="CENTER">Acquisto Ordine <%=x.getCodice()%></h1>
+			<div class="col-sm-8">
 				<div class="panel panel-primary">
 					<div class="panel-heading">Verifica Dati Prodotto</div>
 					<div class="panel-body">
 						<div class="col-sm-2">
 							<img src="data:image/jpg;base64,<%=j%>" class="img-responsive"
-								style="width: 100%; height: 30%;" alt="Image">
+								style="max-width: 100%; height: 30%;" alt="Image">
 						</div>
 						<div class="col-sm-7">
 							<span class="my_span">Codice Prodotto: <%=p.getCodice()%></span><br>
 							<span class="my_span">Nome Prodotto : <%=p.getNome()%></span><br>
-							<span class="my_span">Quantit√† : <%=x.getQuantitaArt()%></span> <br>
+							<span class="my_span">Quantit‡ : <%=x.getQuantitaArt()%></span> <br>
 							<span class="my_span">Prezzo Acquisto: <%=x.getPrezzoAcquisto()%> &euro;</span> <br> 
 							<span class="my_span">Prezzo Unitario: <%=p.getPrezzo()%> &euro; </span> <br>
 							<span class="my_span">Venditore: <%=p.getCod_venditore()%></span><br>
-							<span class="my_span">Zona di Partenza: <%=p.getLocalit√†()%></span>
+							<span class="my_span">Zona di Partenza: <%=p.getLocalit‡()%></span>
 						
 						</div>
 					</div>
@@ -152,11 +163,15 @@ footer {
 							<input type ="hidden" name = "order" value = "<%=x.getCodice()%>">
 							<label style="position: relative; left: 10px; top: 10px;">Indirizzo di Destinazione:</label>
 							<input style="position: relative; left: 10px; top: 10px; width: 22%"type="text" name="indirizzo"
-							value = "<%= y.getVia() + " " + y.getN_civico() + " " + y.getCitt√†()%>">
+							value = "<%= y.getVia() + " " + y.getN_civico() + " " + y.getCitt‡()%>">
 							
 							<label style="position: relative; left: 10px; top: 10px;">Codice carta di credito:</label>
 							<input style="position: relative; left: 10px; top: 10px;" type="text" name="pagamento">
+						
 							
+							<label style="position: relative; left: 10px; top: 10px;">Inserisci codice di sconto:</label>
+							<input style="position: relative; left: 10px; top: 10px; width: 22%"type="text" name="sconto"
+							value = "">
 							<button type="submit" class="btn btn-success btn-md"
 								style="position: relative; left: 10px; top: 10px; margin-left: 15px;">
 								<span  class="glyphicon glyphicon glyphicon-ok"></span>
