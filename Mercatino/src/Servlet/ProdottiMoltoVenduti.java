@@ -1,4 +1,4 @@
-package Servlet;
+package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -37,7 +37,7 @@ public class ProdottiMoltoVenduti extends HttpServlet {
 		ArrayList <Prodotto> list= new ArrayList<Prodotto>();
 		try 
 		{
-			list=p.doRetriveByCond(" acquistato>=5");
+			list=p.doRetriveByCond("acquistato>=5 && flag_sconto=false");
 			request.setAttribute("prodotti", list);
 			RequestDispatcher view=request.getRequestDispatcher("/ProdottiPiùVenduti.jsp");
 			view.forward(request, response);

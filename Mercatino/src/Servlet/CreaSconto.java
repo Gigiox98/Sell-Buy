@@ -1,4 +1,4 @@
-package Servlet;
+package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -67,6 +67,9 @@ public class CreaSconto extends HttpServlet {
 			ScontoDAO sDAO = new ScontoDAO();
 			Sconto s;
 			Prodotto p = pDAO.doRetriveByKey(prodotto);
+			p.setFlag_sconto(true);
+			pDAO.doSaveOrUpdate(p);
+			
 			String codice = generaCodice();
 			int ammontare = (int) ((10*p.getPrezzo())/100);
 			boolean usato = false;

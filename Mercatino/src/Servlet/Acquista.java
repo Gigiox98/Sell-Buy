@@ -1,4 +1,4 @@
-package Servlet;
+package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,6 +13,8 @@ import Model.Ordine;
 import Model.OrdineDAO;
 import Model.Prodotto;
 import Model.ProdottoDAO;
+import Model.Sconto;
+import Model.ScontoDAO;
 
 /**
  * Servlet implementation class Acquista
@@ -34,19 +36,41 @@ public class Acquista extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		OrdineDAO ordDAO = new OrdineDAO();
+		ProdottoDAO prodDAO = new ProdottoDAO();
+		ScontoDAO scDAO = new ScontoDAO();
+		Prodotto p;
 		try {
 			
 			Ordine x = ordDAO.doRetriveByKey(request.getParameter("order"));
-			ProdottoDAO product=new ProdottoDAO();
-			Prodotto prodotto=product.doRetriveByKey(x.getCodProd());
-			prodotto.setAcquistato(prodotto.getAcquistato()+x.getQuantitaArt());
-			product.doSaveOrUpdate(prodotto);
+			String sc = request.getParameter("sconto");
 			x.setStato("acquistato");
+			java.util.Date today = new java.util.Date();
+			String data = today.toString();
+			
+			
+			
+			x.setData(data);
+		
 			x.setIndirizzoSped(request.getParameter("indirizzo"));
+			
 			x.setPaganento(request.getParameter("pagamento"));
 			
+			if(sc != null && sc != "") {
+				Sconto s = scDAO.doRetriveByKey(sc);
+				if(s!=null && !(s.isUsato())) {
+					x.setPrezzoAcquisto(x.getPrezzoAcquisto() - s.getAmmontare());
+					s.setUsato(true);
+					scDAO.doSaveOrUpdate(s);
+				}
+				
+			}
+			p = prodDAO.doRetriveByKey(x.getCodProd());
 			ordDAO.doSaveOrUpdate(x);
-			response.sendRedirect("EsitoOrdine.jsp");
+			
+			p.setAcquistato(p.getAcquistato()+x.getQuantitaArt());
+			
+			prodDAO.doSaveOrUpdate(p);
+			response.sendRedirect("Storico.jsp");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

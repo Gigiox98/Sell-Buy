@@ -90,7 +90,7 @@ public class Vendi extends HttpServlet {
 					String descrizione = request.getParameter("descrizione");
 					String categoria = request.getParameter("categoria");
 					Prodotto p = new Prodotto(codice, nome, quantità, prezzo, descrizione, località, data, stato,
-							username, categoria, base64Image);
+							username, categoria, base64Image, 0, false);
 
 					try {
 						int esito = pDAO.doSaveOrUpdate(p);
