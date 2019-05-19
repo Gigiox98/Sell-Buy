@@ -43,7 +43,7 @@ public class dettagli extends HttpServlet {
 			view.forward(request, response);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			response.sendRedirect("HomePage.jsp");
+			response.sendRedirect("Starter");
 		}
 	}
 

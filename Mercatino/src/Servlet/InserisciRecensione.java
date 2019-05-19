@@ -64,7 +64,7 @@ public class InserisciRecensione extends HttpServlet {
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/dettagli.jsp");
 			dispatcher.forward(request, response);
 		} catch (SQLException e) {
-			response.sendRedirect("HomePage.jsp");
+			response.sendRedirect("Starter");
 			e.printStackTrace();
 		}
 		

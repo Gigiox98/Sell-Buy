@@ -61,7 +61,7 @@ public class Login extends HttpServlet {
 					if(user.get(0).getAdmin_flag() == 1) session.setAttribute("admin", true);
 					else session.setAttribute("admin", false);
 					
-					response.sendRedirect("HomePage.jsp");
+					response.sendRedirect("Starter");
 				}
 			}
 				
