@@ -1,0 +1,14 @@
+L'ultima modifica fatta al progetto consiste in una revisione della home page,
+il tutto consiste semplicemente nell'avviare il sito dalla servlet starter che dinamicamente 
+costruisce gli array dei prodotti nuovi e usati, ho introdotto questa servlet in modo tale da
+poter implementare la ricerca filtrata dei prodotti sull'homepage (funzionalità troppo pesante 
+se implementata in ajax a detta dei professori), la servlet Starter infatti modifica dinamicamente
+le arraylist dei prodotti a seconda dei parametri di Categoria, Prodotto o Zona che vengono settati 
+dall'utente nella JSP.
+
+Le iterazioni tra Homepage e Servlet Starter sono già implementate, sia con il mapping dell'immagine di categoria, 
+che con il form del filtro di ricerca, in più ho aggiornato i menù e redirect su tutte le servlet e JSP del sito, in 
+modo tale da richiamare la servlet Starter al posto dell'HomePage direttamente, in modo da non creare eccezioni.
+(Infatti ricordatevi di eseguire il progetto sempre dalla servlet Starter e non dalla Homepage)
+
+Come ultima Modifica apportata noterete una versione più responsive del filtro di ricerca.
