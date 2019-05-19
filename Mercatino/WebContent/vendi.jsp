@@ -107,7 +107,7 @@ footer {
 	%>
 	<div class="container-fluid fixed-top">
 		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
-			<a class="btn btn-success" href="HomePage.jsp">Home</a> <a
+			<a class="btn btn-success" href="Starter">Home</a> <a
 				class="btn btn-success active" href="vendi.jsp">Vendi</a> <a
 				class="btn btn-success" href="Storico.jsp">Storico</a> <a
 				class="btn btn-success" href="Logout">Log-out</a> <a

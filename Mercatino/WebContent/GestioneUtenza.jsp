@@ -130,7 +130,7 @@ footer {
 	%>
 	<div class="container-fluid fixed-top">
 		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
-			<a class="btn btn-success" href="HomePage.jsp">Home</a> <a
+			<a class="btn btn-success" href="Starter">Home</a> <a
 				class="btn btn-success" href="vendi.jsp">Vendi</a> <a
 				class="btn btn-success" href="Storico.jsp">Storico</a> <a
 				class="btn btn-success" href="Logout">Log-out</a>
@@ -140,8 +140,9 @@ footer {
     			 <span class="glyphicon glyphicon-align-justify"></span> Funzioni Admin</button>
     			 
 			    <ul class="dropdown-menu" role="menu">
-			      <li><a href="#">Gestione prodotti più venduti</a></li>
-			      <li><a href="#">Gestione prodotti meno venduti</a></li>
+			     <li><a href="GestioneUtenza">Gestione utenza</a></li>
+			      <li><a href="ProdottiMoltoVenduti">Gestione prodotti più venduti</a></li>
+			      <li><a href="ProdottiNonVenduti">Gestione prodotti meno venduti</a></li>
 			    </ul>
  			 </div>
 		</div>

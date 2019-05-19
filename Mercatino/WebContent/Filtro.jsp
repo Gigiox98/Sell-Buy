@@ -105,7 +105,7 @@ String j = "";
 %>
 	<div class="container-fluid fixed-top" >
 		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
-			<a class="btn btn-success" href="HomePage.jsp">Home</a> <a
+			<a class="btn btn-success" href="Starter">Home</a> <a
 				class="btn btn-success active" href="login.jsp"><span
 				class="glyphicon glyphicon-log-in"></span> Login</a> <a
 				class="btn btn-success" href="Registration.html">Registazione</a> <a

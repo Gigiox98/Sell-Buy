@@ -120,7 +120,7 @@ footer {
 	%>
 	<div class="container-fluid fixed-top">
 		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
-			<a class="btn btn-success" href="HomePage.jsp">Home</a>
+			<a class="btn btn-success" href="Starter">Home</a>
 			<%
 				if (username == null) {
 			%>
