@@ -1,8 +1,9 @@
 create database SellBuy;
 
 use sellbuy;
+select * from categoria;
 select * from prodotto where (nome LIKE '%%' OR descrizione LIKE '%%') AND categoria = 'Altro...' AND prezzo <= 0 AND stato = 'usato';
-select * from utente;
+select * from prodotto;
 create table utente(
 	username varchar(30) primary key,
     nome varchar(30) not null,
@@ -16,7 +17,7 @@ create table utente(
 );
 
 
-;
+delete from utente where username = 'MarRos4';
 create table categoria(
     categoria varchar(30) primary key
 );
@@ -40,6 +41,8 @@ create table prodotto(
     immagine longtext,
     codice_venditore varchar(30),
     categoria varchar(30),
+    acquistato integer default 0,
+    flag_sconto boolean default false,
 	FOREIGN KEY (codice_venditore) REFERENCES utente (username)
 	on update cascade on delete cascade,
     FOREIGN KEY (categoria) REFERENCES categoria (categoria)
@@ -51,7 +54,25 @@ update prodotto set quantità = '4', nome = 'Smerigliatrice Angolare', prezzo = 
 descrizione = 'smerigliatrice angolare ultima tecnologia', data_inserimento = 'Sun Apr 21 12:29:33 CEST 2019', 
 stato = 'Nuovo', località = 'Roma', codice_venditore = 'Felix88', categoria = 'Ferramenta' where cod_p='1452351942';
 
-select cod_p from prodotto where cod_p like '1452351942';
+select * from prodotto;
+
+
+
+delete from sconto;
+
+create table prodotto_carrello(
+	cod_prodotto varchar(30) not null,
+    cod_user varchar(30) not null,
+    primary key(cod_prodotto, cod_user),
+    quantità integer,
+	FOREIGN KEY(cod_prodotto) REFERENCES prodotto(cod_p)
+    on update cascade on delete cascade,
+    FOREIGN KEY(cod_user) REFERENCES utente(username)
+    on update cascade on delete cascade
+);
+select * from ordine;
+
+
 create table ordine(
 	codice_ordine varchar (30)  primary key key,
     indirizzo_spedizione varchar(30) not null,
@@ -61,17 +82,19 @@ create table ordine(
     pagamento varchar(30) not null,
     username_a varchar(30),
     codice_prodotto varchar(30),
+    data VARCHAR(30),
     FOREIGN KEY(codice_prodotto) REFERENCES prodotto(cod_p)
     on update cascade on delete cascade,
     FOREIGN KEY(username_a) REFERENCES utente(username)
     on update cascade on delete cascade
 );
+
 select * from ordine where username_a = 'MikeTony19' AND stato = 'in carrello';
 select * from ordine where username_a = 'MikeTony19' AND stato = 'in carrello';
 select * from ordine where username_a = 'MikeTony19' AND stato = 'in carrello';
 select * from ordine;
 
-
+delete from ordine where stato = "in carrello";
 
 create table sconto(
 codice varchar(30) primary key,
@@ -79,6 +102,7 @@ ammontare int,
 flag_utilizzo bool default 0
 );
 
+delete from sconto;
 delete from recensioni;
 create table recensioni(
 codice varchar(15) primary key,
@@ -91,7 +115,7 @@ testo longtext,
 voto int
 );
 
-select * from recensioni;
+select * from ordine;
 update categoria  set ricavo_tot = (select sum(costo) 
 from iscrizione, studente
 where iscrizione.cod_studente = studente.codice 
