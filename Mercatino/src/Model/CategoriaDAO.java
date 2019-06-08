@@ -9,21 +9,8 @@ import java.util.ArrayList;
 
 public class CategoriaDAO {
 
-	final String DB_URL_with_SSL = "jdbc:mysql://localhost:3306/sellbuy?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	final String USER = "root";
-	final String PASS = "pippo";
-
 	public void doSave(Categoria cat) throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select categoria from categoria where categoria like '" + cat.getNome() + "';";
 				ResultSet rs = stmt.executeQuery(query);
@@ -40,16 +27,7 @@ public class CategoriaDAO {
 	}
 
 	public void doSaveOrUpdate(Categoria cat) throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select categoria from categoria where categoria like '" + cat.getNome() + "';";
 				ResultSet rs = stmt.executeQuery(query);
@@ -71,16 +49,7 @@ public class CategoriaDAO {
 	}
 
 	public void doDelete(Categoria cat) throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select categoria from categoria where codice_c like '" + cat.getNome() + "';";
 				ResultSet rs = stmt.executeQuery(query);
@@ -100,17 +69,7 @@ public class CategoriaDAO {
 
 	public Categoria doRetriveByKey(String key) throws SQLException {
 		Categoria cat;
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select * from categoria where categoria like '" + key + "';";
 				ResultSet rs = stmt.executeQuery(query);
@@ -131,15 +90,7 @@ public class CategoriaDAO {
 	public ArrayList<Categoria> doRetriveByCond(String cond) throws SQLException {
 		Categoria cat;
 
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			ArrayList<Categoria> list = new ArrayList<>();
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select * from categoria where" + cond + ";";
@@ -161,16 +112,7 @@ public class CategoriaDAO {
 	public ArrayList<Categoria> doRetriveAll() throws SQLException {
 		Categoria cat;
 
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			ArrayList<Categoria> list = new ArrayList<>();
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select * from categoria;";

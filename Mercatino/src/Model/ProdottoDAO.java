@@ -9,21 +9,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class ProdottoDAO {
-	final String DB_URL_with_SSL = "jdbc:mysql://localhost:3306/sellbuy?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	final String USER = "root";
-	final String PASS = "pippo";
 
 	public int doSave(Prodotto o) throws SQLException, IOException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				int x;
 				String query = "select cod_p from prodotto where cod_p like '" + o.getCodice() + "';";
@@ -43,16 +32,8 @@ public class ProdottoDAO {
 	}
 
 	public int doSaveOrUpdate(Prodotto o) throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select cod_p from prodotto where cod_p like '" + o.getCodice() + "';";
 				ResultSet rs = stmt.executeQuery(query);
@@ -83,16 +64,8 @@ public class ProdottoDAO {
 	}
 
 	public void doDelete(Prodotto o) throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "delete from prodotto where cod_p like '" + o.getCodice() + "';";
 				stmt.executeUpdate(query);
@@ -102,16 +75,8 @@ public class ProdottoDAO {
 
 	public Prodotto doRetriveByKey(String key) throws SQLException, IOException {
 
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
 
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select * from prodotto where cod_p like'" + key + "';";
 				ResultSet rs = stmt.executeQuery(query);
@@ -148,12 +113,8 @@ public class ProdottoDAO {
 	}
 
 	public ArrayList<Prodotto> doRetriveByCond(String cond) throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select * from prodotto where " + cond + ";";
 				ResultSet rs = stmt.executeQuery(query);
@@ -188,13 +149,8 @@ public class ProdottoDAO {
 	}
 
 	public ArrayList<Prodotto> doRetriveByAll() throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select * from prodotto";
 				ResultSet rs = stmt.executeQuery(query);

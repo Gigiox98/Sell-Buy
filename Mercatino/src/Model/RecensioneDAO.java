@@ -9,21 +9,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class RecensioneDAO {
-	final String DB_URL_with_SSL = "jdbc:mysql://localhost:3306/sellbuy?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	final String USER = "root";
-	final String PASS = "pippo";
+	
 
 	public int doSave(Recensione o) throws SQLException, IOException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
+		
 
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				int x;
 				String query = "select codice from recensioni where codice like '" + o.getCodice() + "';";
@@ -41,16 +32,9 @@ public class RecensioneDAO {
 	}
 
 	public int doSaveOrUpdate(Recensione o) throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
+		
 
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				int x;
 				String query = "select codice from recensioni where codice like '" + o.getCodice() + "';";
@@ -73,16 +57,9 @@ public class RecensioneDAO {
 	}
 
 	public void doDelete(Recensione o) throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
+		
 
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				
 				String query = "delete from recensioni where codice = '" + o.getCodice() + "';";
@@ -93,16 +70,8 @@ public class RecensioneDAO {
 
 	public Recensione doRetriveByKey(String key) throws SQLException, IOException {
 
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
 
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select * from recensioni where cod_p like'" + key + "';";
 				ResultSet rs = stmt.executeQuery(query);
@@ -129,12 +98,8 @@ public class RecensioneDAO {
 	}
 
 	public ArrayList<Recensione> doRetriveByCond(String cond) throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select * from recensioni where " + cond + ";";
 				ResultSet rs = stmt.executeQuery(query);
@@ -157,12 +122,8 @@ public class RecensioneDAO {
 	}
 
 	public ArrayList<Recensione> doRetriveByAll() throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		
+		try (Connection conn = ConnectionPool.getConnection()) {
 
 			try (Statement stmt = conn.createStatement()) {
 

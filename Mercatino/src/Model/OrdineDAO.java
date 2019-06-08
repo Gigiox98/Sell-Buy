@@ -8,21 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class OrdineDAO {
-	final String DB_URL_with_SSL = "jdbc:mysql://localhost:3306/sellbuy?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	final String USER = "root";
-	final String PASS = "pippo";
-
 	public void doSave(Ordine ord) throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select codice__ordine from ordine where codice_ordine like '" + ord.getCodice() + "';";
 				ResultSet rs = stmt.executeQuery(query);
@@ -43,16 +30,7 @@ public class OrdineDAO {
 	}
 
 	public void doSaveOrUpdate(Ordine ord) throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select codice_ordine from ordine where codice_ordine like '" + ord.getCodice() + "';";
 				ResultSet rs = stmt.executeQuery(query);
@@ -61,7 +39,9 @@ public class OrdineDAO {
 							+ "stato, quantita_articolo, prezzo_acquisto, pagamento, username_a, codice_prodotto, data) "
 							+ "values ('" + ord.getCodice() + "','" + ord.getIndirizzoSped() + "','" + ord.getStato()
 							+ "','" + ord.getQuantitaArt() + "','" + ord.getPrezzoAcquisto() + "','"
-							+ ord.getPaganento() + "','" + ord.getAcquirente() + "','" + ord.getCodProd() + "', data = '"+ord.getData()+"');";
+							+ ord.getPaganento() + "','" + ord.getAcquirente() + "','" + ord.getCodProd() + "', '"+ord.getData()+"');";
+					
+					System.out.println("DAOOO"+ ord.getData());
 					stmt.executeUpdate(query2);
 				} else {
 					String query3 = "update ordine set" + " indirizzo_spedizione = '" + ord.getIndirizzoSped() + "',"
@@ -82,16 +62,7 @@ public class OrdineDAO {
 	}
 
 	public void doDelete(Ordine ord) throws SQLException {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select codice_ordine from ordine where codice_ordine like '" + ord.getCodice() + "';";
 				ResultSet rs = stmt.executeQuery(query);
@@ -110,18 +81,7 @@ public class OrdineDAO {
 	}
 
 	public Ordine doRetriveByKey(String key) throws SQLException {
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select * from ordine where codice_ordine like '" + key + "';";
 				ResultSet rs = stmt.executeQuery(query);
@@ -144,15 +104,7 @@ public class OrdineDAO {
 
 	public ArrayList<Ordine> doRetriveByCond(String cond) throws SQLException {
 
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			ArrayList<Ordine> list = new ArrayList<>();
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select * from ordine where " + cond + ";";
@@ -176,16 +128,7 @@ public class OrdineDAO {
 
 	public ArrayList<Ordine> doRetriveAll() throws SQLException {
 
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-
-		}
-
-		try (Connection conn = DriverManager.getConnection(DB_URL_with_SSL, USER, PASS)) {
+		try (Connection conn = ConnectionPool.getConnection()) {
 			ArrayList<Ordine> list = new ArrayList<>();
 			try (Statement stmt = conn.createStatement()) {
 				String query = "select * from ordine;";
