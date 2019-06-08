@@ -98,27 +98,29 @@ footer {
 
 	<%
 		String username = (String) session.getAttribute("username");
-		OrdineDAO ordDAO = new OrdineDAO();
-		ProdottoDAO prodDAO = new ProdottoDAO();
-		ArrayList<Ordine> carrello = ordDAO.doRetriveByCond("username_a = '" + username + "' AND stato = 'in carrello'");
-		if (carrello == null)
-			System.out.print("null Ord Array");
-		String j = "";
+		Collection <ProdottoQuantita> carrello = null;
+		Carrello cart = (Carrello) session.getAttribute("carrello");
+		if(cart != null){
+			 carrello = cart.getProdotti();
+		}
 	%>
 	<div class="container-fluid fixed-top">
 		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
 			<a class="btn btn-success" href="Starter">Home</a> <a
 				class="btn btn-success" href="vendi.jsp">Vendi</a> <a
-				class="btn btn-success" href="Storico.jsp">Storico</a> <a
-				class="btn btn-success" href="Logout">Log-out</a> <a
-				class="btn btn-success" href="#">About-us</a>
+				class="btn btn-success" href="Storico.jsp">Storico</a> 
+				<%if (username != null){ %><a class="btn btn-success" href="Logout">Log-out</a> 
+				<%}else {%> <a class="btn btn-success" href="login.jsp">Log-in</a> <%} %>
+				<a class="btn btn-success" href="#">About-us</a>
 		</div>
 		<br>
+		
+		<%if(carrello == null || carrello.isEmpty()) { %> <h1 class = "header"> Non Hai Prodotti Nel Carrello</h1>
 		<%
-			for (Ordine x : carrello)
-			{
-				Prodotto p = prodDAO.doRetriveByKey(x.getCodProd());
-				j = p.getImmagine();
+		} else {
+			for (ProdottoQuantita x: carrello){
+				Prodotto p = x.getProdotto();
+				String j = p.getImmagine();
 		%>
 
 		<div class="row">
@@ -131,26 +133,33 @@ footer {
 								style="width: 50%; height: 15%;" alt="Image">
 						</div>
 						<div class="col-sm-7">
-							<span class="my_span">Quantità: <%=x.getQuantitaArt()%></span> <span
-								class="my_span">Prezzo Acquisto: <%=x.getPrezzoAcquisto()%>
+							<span class="my_span">Quantità: <%=x.getQuantita()%></span> 
+							<span class="my_span">Prezzo Acquisto: <%=x.getPrezzo()%>
 								&euro;
 							</span> <br> <span class="my_span">Prezzo Unitario: <%=p.getPrezzo()%>
 								&euro;
 							</span> <span class="my_span">Venditore: <%=p.getCod_venditore()%></span>
+							
+							<%if(username != null){ %>
 							<form action="acquista.jsp" method="post">
-								<input type ="hidden" name = "order" value = "<%=x.getCodice()%>">
+								<input type ="hidden" name = "productToBuy" value = "<%=p.getCodice()%>">
 								<button type="submit" class="btn btn-success btn-md"
 								style="position: relative; left: 10px; top: 10px;">
-								<span class="glyphicon glyphicon-ok"></span> Acquista
+									<span class="glyphicon glyphicon-ok"></span> Acquista
 								</button>
 							</form>
+							<%} else {%>
+							
+							<br> <span class="my_span">Effettua L'accesso per iniziare ad acquistare</span>
+							<%} %>
 						</div>
 					</div>
 					<div class="panel-footer">
 						<form action="RemoveToCart" method="post">
+							<input type="hidden" name = "code" value = "<%=p.getCodice() %>">
      						 <label style="position: relative; left: 10px; top: 10px;">Quantità:</label>
-							<input style="position: relative; left: 10px; top: 10px;" type="number" name="quantità" value="1" min="1" max="<%= x.getQuantitaArt() %>" step="1">
-							<input type ="hidden" name = "order" value = "<%=x.getCodice()%>">
+							<input style="position: relative; left: 10px; top: 10px;" type="number" name="quantità" value="1" min="1" max="<%= x.getQuantita() %>" step="1">
+							
 							<button type="submit" class="btn btn-success btn-md"
 								style="position: relative; left: 10px; top: 10px;">
 								<span class="glyphicon glyphicon glyphicon-remove"></span> Rimuovi dal Carrello</button>
@@ -162,7 +171,7 @@ footer {
 
 		</div>
 		<%
-			}
+			}}
 		%>
 
 	</div>

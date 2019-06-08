@@ -100,7 +100,7 @@ footer {
 }
 
 .my_span {
-	font-family: helvetica;
+	font-family: helvetica;	
 	margin-left: 10px;
 	font-size: 18px;
 	color: #337ab7;
@@ -110,9 +110,13 @@ footer {
 <body>
 	<%
 		String username = (String) session.getAttribute("username");
+		
+		
 		Prodotto p = (Prodotto) request.getAttribute("prodotto");
+		
+		int q_limit = (int) request.getAttribute("quantità_limite");
 		String j = p.getImmagine();
-
+	
 		UtenteDAO du = new UtenteDAO();
 		Utente venditore = du.doRetriveByKey(p.getCod_venditore());
 		RecensioneDAO dr = new RecensioneDAO();
@@ -225,36 +229,34 @@ footer {
 								%>
 								<form action="InserisciRecensione.jsp" method="post" style ="display: inline">
 									<input type="hidden" name="code" value="<%=p.getCodice()%>">
+									<input type="hidden" name="name" value="<%=p.getNome()%>">
+									
 									<button class="btn btn-primary">
 										<span class="glyphicon glyphicon-pencil"></span>Recensione
 									</button>
 								</form>
+								
 								<%
-									if (p.getQuantità() > 0) {
-								%>
-								<form action="AddToCart" method="get" style ="display: inline">
-									<input type="hidden" name="code" value="<%=p.getCodice()%>">
-									<span class="my_span">Quantità:</span> <input type="number"
-										name="quantita" min="1" max="<%=p.getQuantità()%>" step="1">
-									<button class="btn btn-primary">
-										<span class="glyphicon glyphicon-shopping-cart"></span>Aggiungi
-										al carrello
-									</button>
-								</form>
-								<%
-									} else {
-								%>
-								<span class="my_span">Prodotto non disponibile</span>
-								<%
-									}
 
-									} else {
+									} 
 								%>
-								<span class="my_span">Accedi/Registrati per cominciare ad
-									acquistare</span>
-								<%
-									}
-								%>
+									<%
+										if (q_limit > 0) {
+									%>
+									<form action="AddToCart" method="get" style ="display: inline">
+										<input type="hidden" name="code" value="<%=p.getCodice()%>">
+										<span class="my_span">Quantità:</span> <input type="number"
+											name="quantita" min="1" max="<%=q_limit%>" step="1">
+										<button class="btn btn-primary">
+											<span class="glyphicon glyphicon-shopping-cart"></span>Aggiungi
+											al carrello
+										</button>
+									</form>
+									<%
+										} else {
+									%>
+									<span class="my_span">Prodotto non disponibile</span>
+								<%} %>
 							</div>
 						</div>
 

@@ -136,7 +136,7 @@ footer {
 			    <ul class="dropdown-menu" role="menu">
 			      <li><a href="FiltroRicercaAvanzata.jsp">Ricerca Avanzata</a></li>
 			      <li><a href="GestioneUtenza">Gestione utenza</a></li>
-			      <li><a href="ProdottiMoltoVenduti">Gestione prodotti più venduti</a></li>
+			      <li><a href="ProdottiVenduti">Gestione prodotti più venduti</a></li>
 			      <li><a href="ProdottiNonVenduti">Gestione prodotti meno venduti</a></li>
 			    </ul>
  			 </div>

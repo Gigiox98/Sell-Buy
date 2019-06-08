@@ -118,26 +118,26 @@ footer {
 </head>
 <body>
 	<%
-		OrdineDAO ordDAO = new OrdineDAO();
-		ProdottoDAO prodDAO = new ProdottoDAO();
 		UtenteDAO userDAO = new UtenteDAO();
-		Ordine x = ordDAO.doRetriveByKey(request.getParameter("order"));
 		Utente y = userDAO.doRetriveByKey((String) session.getAttribute("username"));
+		String code = request.getParameter("productToBuy");
 		
-		if (x == null)
-			System.out.print("Ordine Inesistente");
-		Prodotto p = prodDAO.doRetriveByKey(x.getCodProd());
+		
+		Carrello cart = (Carrello) session.getAttribute("carrello");
+		ProdottoQuantita x = cart.get(code);
+		Prodotto p = x.getProdotto();
+		
 		String j = p.getImmagine();
 	%>
 	<div class="container-fluid fixed-top">
 		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
-			<a class="btn btn-success" href="HomePage.jsp">Home</a> <a
+			<a class="btn btn-success" href="Starter">Home</a> <a
 				class="btn btn-success active" href="vendi.jsp">Vendi</a> <a
 				class="btn btn-success" href="Storico.jsp">Storico</a> <a
 				class="btn btn-success" href="Logout">Log-out</a> <a
 				class="btn btn-success" href="#">About-us</a>
 		</div>
-			<h1 class= "header" align="CENTER">Acquisto Ordine <%=x.getCodice()%></h1>
+			<h1 class= "header" align="CENTER">Acquisto  <%=p.getNome()%></h1>
 			<div class="col-sm-8">
 				<div class="panel panel-primary">
 					<div class="panel-heading">Verifica Dati Prodotto</div>
@@ -149,8 +149,8 @@ footer {
 						<div class="col-sm-7">
 							<span class="my_span">Codice Prodotto: <%=p.getCodice()%></span><br>
 							<span class="my_span">Nome Prodotto : <%=p.getNome()%></span><br>
-							<span class="my_span">Quantità : <%=x.getQuantitaArt()%></span> <br>
-							<span class="my_span">Prezzo Acquisto: <%=x.getPrezzoAcquisto()%> &euro;</span> <br> 
+							<span class="my_span">Quantità : <%=x.getQuantita()%></span> <br>
+							<span class="my_span">Prezzo Acquisto: <%=x.getPrezzo()%> &euro;</span> <br> 
 							<span class="my_span">Prezzo Unitario: <%=p.getPrezzo()%> &euro; </span> <br>
 							<span class="my_span">Venditore: <%=p.getCod_venditore()%></span><br>
 							<span class="my_span">Zona di Partenza: <%=p.getLocalità()%></span>
@@ -160,7 +160,7 @@ footer {
 					<div class="panel-footer">
 						<form action="Acquista" method="post">
 						
-							<input type ="hidden" name = "order" value = "<%=x.getCodice()%>">
+							<input type ="hidden" name = "product" value = "<%=p.getCodice()%>">
 							<label style="position: relative; left: 10px; top: 10px;">Indirizzo di Destinazione:</label>
 							<input style="position: relative; left: 10px; top: 10px; width: 22%"type="text" name="indirizzo"
 							value = "<%= y.getVia() + " " + y.getN_civico() + " " + y.getCittà()%>">

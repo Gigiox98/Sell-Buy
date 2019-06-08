@@ -1,0 +1,28 @@
+@charset "ISO-8859-1";
+
+#STAR_RATING ul{
+  margin: 0px;
+  padding: 0px;
+  height: 16px;
+  list-style: none;
+}
+#STAR_RATING li
+{
+  width: 20px;
+  height: 20px;
+  display: block;
+  float: left;
+  background-image: url('../Immagini/star-off.png');
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+#STAR_RATING li.on
+{
+  background-image: url('../Immagini/star-on.png');
+}
+#voto_div span.output
+{
+  padding: 3px;
+  color: #339900;
+  font-weight: bold;
+}

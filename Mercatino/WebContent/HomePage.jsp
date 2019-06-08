@@ -15,6 +15,12 @@
 <style>
 body {
 	background-image: url('Immagini/sfondo.jpg');
+	background-repeat: none;  	background-size: 100%;
+
+  	
+	margin-left: 10%;
+	margin-right: 10%;
+	
 }
 
 .img_container {
@@ -88,22 +94,23 @@ footer {
 
 .header {
 	font-family: helvetica;
-	font-style: italic;
 	text-align: center;
 	font-size: 30px;
 	text-transform: capitalize;
-	color: #449d44;
-	background-color: rgba(255, 255, 255, 0.8);
-	padding: 0.5%;
-	border: 2px solid #449d44;
-	border-radius: 25px;
+	color: #1A7318;
+	border: 2px solid #1A7318;
+	
 }
 
 .header:hover {
-	color: #5cb85c;
+	color: #4FE01D;
 	background-color: rgb(255, 255, 255);
-	border-color: 2px solid #5cb85c;
 }
+
+.my_panel{
+	border-radius: 0;
+}
+
 
 
    img[usemap] { 
@@ -128,7 +135,7 @@ footer {
 	%>
 
 
-	<div class="container-fluid">
+	<div class="container-fluid"  style="padding: 0%">
 			<img src="Immagini/HomeTop.PNG" usemap="#image-map">
 		
 			<map name="image-map">
@@ -142,9 +149,9 @@ footer {
 			
 	</div>
 	
-	<div class="container-fluid fixed-top">
+	
 		<div class="btn-group btn-group-justified" style="margin-left: 0%;">
-			<a class="btn btn-success active" href="Starter"><%=home%></a>
+			<a class="btn btn-success active" style = " border-radius: 0px;" href="Starter"><%=home%></a>
 			<%
 				if (username == null) {
 			%>
@@ -161,10 +168,10 @@ footer {
 			<%
 				}
 			%>
-			<a class="btn btn-success" href="#">About-us</a>
+			<a class="btn btn-success" style = " border-radius: 0px;" href="#">About-us</a>
 		</div>
 
-		<nav class="navbar navbar-inverse" style = "background-color: rgb(160, 213, 95)">
+		<nav class="navbar navbar-inverse" style = "background-color: #4FE01D; border: 0px;">
 			<div class="container-fluid">
 
 				<!-- BRAND -->
@@ -190,16 +197,15 @@ footer {
 							}
 						%>
 				</div>
-
+			
 				<!-- COLLAPSIBLE NAVBAR -->
 				<div class="collapse navbar-collapse" id="alignment-example">
 
 					<!-- Links -->
 				
 					<ul class="nav navbar-nav">		
-						<% if (username != null) { %>				
+										
 						<li><a href="Carrello.jsp" style="color: white; font-family: Helvetica; font-size:18px;"><span class="glyphicon glyphicon-shopping-cart"></span> Carrello</a></li>
-						<%} %>
 						<li class="dropdown"> <a href=""  class="dropdown-toggle"
 						data-toggle="dropdown" style="color:white; font-family: Helvetica; font-size:18px;"> 
 						<span class="glyphicon glyphicon-align-justify"></span> Funzionalità</a>
@@ -231,9 +237,9 @@ footer {
 		
 
 
-
-		<br> <br>
-		<div class="container">
+		
+		<div class="container-fluid"  style="background-color: rgba(128,232,77, 0.7); ">
+			<%if(x.size() > 0){ %>
 			<h1 class="header">prodotti usati</h1>
 			<div class="row">
 
@@ -245,17 +251,17 @@ footer {
 							j = y.getImmagine();
 				%>
 
-				<div class="col-sm-4">
-					<div class="panel panel-primary">
+				<div class="col-sm-3">
+					<div class="panel panel-success" style="border-radius: 0px;">
 						<div class="panel-heading"><%=y.getNome()%></div>
 						<div class="panel-body">
 							<img src="data:image/jpg;base64,<%=j%>" class="img-responsive"
-								style="width: 100%; height: 40%;" alt="Image">
+								style="object-fit: contain; height: 150px;" alt="Image">
 						</div>
 						<div class="panel-footer">
 							<form action="dettagli" method="post">
 								<input type="hidden" name="code" value="<%=y.getCodice()%>">
-								<input type="submit" class="btn btn-primary btn-md"
+								<input type="submit" class="btn btn-success btn-md"
 									value="Dettagli Prodotto">
 							</form>
 						</div>
@@ -266,13 +272,11 @@ footer {
 					}
 				%>
 			</div>
-		</div>
 
 
+		<%} %>
 
-		<br> <br>
-
-		<div class="container">
+		<%if(x1.size() > 0){ %>
 			<h1 class="header">prodotti nuovi</h1>
 			<div class="row">
 				<%
@@ -283,17 +287,17 @@ footer {
 							j = y.getImmagine();
 				%>
 
-				<div class="col-sm-4">
-					<div class="panel panel-primary">
+				<div class="col-sm-3">
+					<div class="panel panel-success" style="border-radius: 0px;">
 						<div class="panel-heading"><%=y.getNome()%></div>
 						<div class="panel-body">
 							<img src="data:image/jpg;base64,<%=j%>" class="img-responsive"
-								style="width: 100%; height: 40%;" alt="Image">
+								style="object-fit: contain; height: 150px;" alt="Image">
 						</div>
 						<div class="panel-footer">
 							<form action="dettagli" method="get">
 								<input type="hidden" name="code" value="<%=y.getCodice()%>">
-								<input type="submit" class="btn btn-primary btn-md"
+								<input type="submit" class="btn btn-success btn-md"
 									value="Dettagli Prodotto">
 							</form>
 						</div>
@@ -302,8 +306,11 @@ footer {
 				<%
 					}
 				%>
+				
 			</div>
+			<%}%>
 		</div>
+		
 		<footer class="container-fluid text-center">
 			<p>Footer Text</p>
 		</footer>

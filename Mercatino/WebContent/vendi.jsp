@@ -96,6 +96,13 @@ footer {
 	padding: 0.5%;
 	border: 2px solid blue;
 }
+
+.strong{
+	border: 2px dotted blue;
+	text-align: center;
+	margin-top: 5px;
+}
+
 </style>
 </head>
 <body>
@@ -119,43 +126,84 @@ footer {
 		%>
 		<br>
 		<div class="row">
-			<div class="col-sm-6" style="margin: 20px;">
+			<div class="col-sm-3" style="margin: 20px;">
 				<div class="panel panel-primary">
-					<div class="panel-heading">Prodotti Inseriti</div>
-					<form action="vendi.jsp" method="get" enctype="multipart/form-data">
+					<div class="panel-heading">Gestisci miei prodotti</div>
+					
 					<div class="panel-body">
+					
+					<form action="vendi.jsp" method="post">
+						
+						<div class="form-group">
+						
+						<select class="form-control"  name="ModifyProduct" onchange="visualizzaQuantità(this.value)">
+						<option value="">Seleziona...</option>
 						<%
 							for (Prodotto x : myProducts) {
 						%>
-
-								<input type="radio" id="huey" name="ModifyProduct" value="<%=x.getCodice()%>"> <label><%=x.getNome()%>
-								
-								<%if(x.getQuantità() == 0)%> <strong style= "background-color: yellow">ESAURITO</strong>
-								
-								</label><br>
+							<option value="<%=x.getCodice()%>"><%=x.getNome()%></option>
 						<%
 							}
 						%>
+						</select>
+						<p class = "strong"id= "quantità"><strong>Quantità residua: /</strong></p>
+						<ul style="display: none" id ="listQuantità">
+							<%
+								for (Prodotto x : myProducts) {
+							%>
+								<li id="<%=x.getCodice()%>" value = "<%=x.getQuantità()%>"></li>
+								
+							<%
+								}
+							%>
+						</ul>
 						
-						<input type="submit" class="btn btn-success"  onclick="myFunction()"
-							value="Aggiorna Prodotto">
-
+						
+						<input type="submit" id="sub" class="btn btn-success disabled" value="Aggiorna Prodotto">
+						</div>
 						
 						
-					</div>
-					</form>
+						</form>
+						</div>
+						<%if(p!=null){ %>
+						<div class="panel-footer" style:"padding-bottom: 0;">
+						<form action="Vendi" method="post" enctype="multipart/form-data">
+							<input type="hidden" name="codice" value="<%=p.getCodice()%>">
+							<strong class="strong">Elimina <%=p.getNome() %></strong><br>
+							<input style= "margin-top: 10px; margin-bottom: 2px"type="submit" class="btn btn-danger" id="elimina" name="elimina" value="elimina">
+						</form>
+						</div>
+						
+						
+						<%} %>
+					
+				
 				</div>
 			</div>
 
 
-		</div>
-
+		
+			<script>
+			 	function visualizzaQuantità(code){
+			 		if(code == ""){
+			 			document.getElementById("quantità").innerHTML = "<strong>Quantità residua: /</strong>";
+			 			document.getElementById("sub").classList.add("disabled");
+			 		} else {
+				 		var x = parseInt(document.getElementById(code).value);
+				 		if(x == 0) document.getElementById("quantità").innerHTML = "<strong style= 'background-color: yellow'>PRODOTTO ESAURITO</strong>";
+				 		else document.getElementById("quantità").innerHTML = "<strong>Quantità Residua: "+ x +"</strong>";
+				 		
+				 		document.getElementById("sub").classList.remove("disabled");
+			 		}
+			 	}
+			</script>
 		<%
 			}
 		%>
 		
-		<div class="col-sm-6"
-			style="background-color: white; border-radius: 10px; margin: 20px; border: 3px solid #337ab7">
+		
+		
+		<div class="col-sm-6" style="background-color: white; border-radius: 10px; margin: 20px; border: 3px solid #337ab7">
 			<h1 align="CENTER">Form Vendita</h1>
 
 
@@ -198,13 +246,12 @@ footer {
 					<div class="row">
 						<input type="hidden" name="codice"value="<%=p.getCodice()%>"> 
 						
-						<input type="checkbox" name="elimina" value="elimina"> Elimina<br><br>
 						<label class="col-sm-2" for="nome" >Nome Prodotto:</label> 
 						<input class="col-sm-4" type="text" class="form-control" name="nome" value = "<%=p.getNome() %>" > <br> <br> 
 						<label class="col-sm-2" for="prezzo" >Prezzo:</label> 
 						<input class="col-sm-4" type="number" step="0.1" class="form-control" name="prezzo" value = "<%=p.getPrezzo() %>" > <br> <br> 
 						<label class="col-sm-2" for="quantità">Quantità:</label> 
-						<input class="col-sm-4" type="number" class="form-control" name="quantità"> <br> <br>
+						<input class="col-sm-4" type="number" class="form-control" name="quantità" value = "<%=p.getQuantità()%>"> <br> <br>
 						<label class="col-sm-2" for="località"  >Località:</label> 
 						<input class="col-sm-4" type="text" class="form-control" name="località" value = "<%=p.getLocalità() %>"><br> <br> 
 						<label class="col-sm-2" for="descrizione">Descrizione:</label>
@@ -221,7 +268,8 @@ footer {
 
 		</div>
 	</div> 
-
+	</div>
+	
 </body>
 </html>
 
