@@ -60,8 +60,8 @@ public class InserisciRecensione extends HttpServlet {
 		try {
 			dao.doSave(rec);
 			
-			request.setAttribute("prodotto", pDao.doRetriveByKey(prodotto));
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/dettagli.jsp");
+			request.setAttribute("code", prodotto);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/dettagli");
 			dispatcher.forward(request, response);
 		} catch (SQLException e) {
 			response.sendRedirect("Starter");

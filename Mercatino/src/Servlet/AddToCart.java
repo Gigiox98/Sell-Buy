@@ -2,18 +2,24 @@ package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Random;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import Model.Ordine;
-import Model.OrdineDAO;
+
+import com.sun.net.httpserver.HttpContext;
+
+import Model.Carrello;
 import Model.Prodotto;
 import Model.ProdottoDAO;
+import Model.ProdottoInCarrello;
+import Model.ProdottoInCarrelloDAO;
+import Model.ProdottoQuantita;
 
 @WebServlet("/AddToCart")
 public class AddToCart extends HttpServlet {
@@ -27,95 +33,64 @@ public class AddToCart extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	protected String generaCodice() {
-		String codice = "";
-		String alpha = "ABCDEFGHILMNIPQRSTUVWXYZ0123456789";
-
-		for (int i = 0; i < 10; i++) {
-			Random r = new Random();
-			int j = r.nextInt(9);
-			codice = codice + alpha.charAt(j);
-		}
-		return codice;
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException 
-	{
+			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		synchronized (session) 
-		{
-			int number;
+		synchronized (session) {
+			ProdottoInCarrelloDAO daoPC = new ProdottoInCarrelloDAO();
+			ProdottoDAO daoP = new ProdottoDAO();
 			String username = (String) session.getAttribute("username");
-			ProdottoDAO prodottoDao = new ProdottoDAO();
-			try 
-			{
-				Prodotto p = prodottoDao.doRetriveByKey(request.getParameter("code"));
-				if(p!=null)
-				{
-					OrdineDAO daoo = new OrdineDAO();
-					ArrayList<Ordine> list_order=daoo.doRetriveByCond("codice_prodotto='"+p.getCodice()+"' and username_a='"+username+"' and stato = 'in carrello';");
-					if(list_order.size()==0)
-					{
-						Integer quantità = Integer.parseInt(request.getParameter("quantita"));
-						number = p.getQuantità();
-						number = number - quantità;
-						p.setQuantità(number);
-						prodottoDao.doSaveOrUpdate(p);
-						String codiceO = generaCodice();
-						String indirizzoSped = "";
-						String stato = "in carrello";
-						double prezzoAcquisto = p.getPrezzo()*quantità;
-						String pagamento = "";
-						String acquirente = username;
-						String codProd = p.getCodice();
-						
-						java.util.Date today = new java.util.Date();
-						String data = today.toString();
-						
-						Ordine o = new Ordine(codiceO, indirizzoSped, stato, quantità, prezzoAcquisto, pagamento,
-								acquirente, codProd, data);
-						
-						System.out.println(o.getData());
-						daoo.doSaveOrUpdate(o);
-						response.sendRedirect("Carrello.jsp");
-					}
-					
-					else
-					{
-						Ordine o=list_order.get(0);
-						Integer quantità = Integer.parseInt(request.getParameter("quantita"));
-						number = p.getQuantità();
-						number = number - quantità;
-						p.setQuantità(number);
-						prodottoDao.doSaveOrUpdate(p);
-						String indirizzoSped = "";
-						String stato = "in carrello";
-						int quantità_ord=o.getQuantitaArt()+quantità;
-						double prezzoAcquisto = p.getPrezzo()*quantità_ord;
-						String pagamento = "";
-						String acquirente = username;
-						String codProd = p.getCodice();
-						Ordine ord = new Ordine(o.getCodice(), indirizzoSped, stato, quantità_ord, prezzoAcquisto, pagamento,
-								acquirente, codProd, o.getData());
-						daoo.doSaveOrUpdate(ord);
-						response.sendRedirect("Carrello.jsp");
-					}
-				}
-			} 
+			Carrello carrello = (Carrello) session.getAttribute("carrello");
 			
-			catch (SQLException e1) 
-			{
-				e1.printStackTrace();
+			
+			if (carrello == null) {
+				carrello = new Carrello();
+				session.setAttribute("carrello", carrello);
 			}
-			
+
+			String code = request.getParameter("code");
+			if (code != null) {
+				System.out.println("Devo inserire il prodotto " + code);
+				String addNumStr = request.getParameter("quantita");
+
+				if (addNumStr != null) {
+					int addNum = Integer.parseInt(addNumStr);
+					Prodotto p;
+					try {
+						p = daoP.doRetriveByKey(code);
+						ProdottoQuantita prodQuant = carrello.get(code);
+						
+						int quantToDB;
+						if (prodQuant != null) {
+							prodQuant.setQuantita(prodQuant.getQuantita() + addNum);
+							quantToDB = prodQuant.getQuantita();
+						} else {
+							System.out.println("Sto inserendo" + code);
+							carrello.put(p, addNum);
+							quantToDB = addNum;
+						}
+						
+						if(username != null) {
+							System.out.println("Inserisco nel database " + code);
+							daoPC.doSaveOrUpdate(new ProdottoInCarrello(code, username, quantToDB));
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+				}
+
+				//RequestDispatcher requestDispatcher = request.getRequestDispatcher("Carrello.jsp");
+				//requestDispatcher.forward(request, response);
+			}
+			response.sendRedirect("Carrello.jsp");
 		}
 	}
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException 
-	{
-		doGet(request,response);
+			throws ServletException, IOException {
+		doGet(request, response);
 	}
-	
+
 }

@@ -2,15 +2,22 @@ package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Model.Ordine;
-import Model.OrdineDAO;
+import javax.servlet.http.HttpSession;
+
+import Model.Carrello;
 import Model.Prodotto;
 import Model.ProdottoDAO;
+import Model.ProdottoInCarrello;
+import Model.ProdottoInCarrelloDAO;
+import Model.ProdottoQuantita;
 
 /**
  * Servlet implementation class RemoveToCart
@@ -31,37 +38,71 @@ public class RemoveToCart extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String order = request.getParameter("order");
-		String q=request.getParameter("quantità");
-		Integer quantità=Integer.parseInt(q);
+		HttpSession session = request.getSession();
 		
-		try 
-		{
-			ProdottoDAO d = new ProdottoDAO();
-			OrdineDAO dao = new OrdineDAO();
-			Ordine x = dao.doRetriveByKey(order);
-			Prodotto p = d.doRetriveByKey(x.getCodProd());
-			p.setQuantità(p.getQuantità() + quantità);
-			d.doSaveOrUpdate(p);
-			if(x.getQuantitaArt()==quantità)
-			{
-				dao.doDelete(x);
-				response.sendRedirect("Carrello.jsp");
+		synchronized (session) {
+			ProdottoDAO daoP = new ProdottoDAO();
+			ProdottoInCarrelloDAO daoPC = new ProdottoInCarrelloDAO();
+			String username = (String) session.getAttribute("username");
+			Carrello carrello = (Carrello) session.getAttribute("carrello");
+			if (carrello == null) {
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("Carrello.jsp");
+				requestDispatcher.forward(request, response);
+				return;
 			}
 			
-			else
-			{
-				x.setQuantitaArt(x.getQuantitaArt()-quantità);
-				x.setPrezzoAcquisto(x.getPrezzoAcquisto()-(p.getPrezzo()*quantità));
-				dao.doSaveOrUpdate(x);
-				response.sendRedirect("Carrello.jsp");
+			String code = request.getParameter("code");
+			if (code != null) {
+				System.out.println("Sto rimuovendo " +  code);
+				
+				String quantità = request.getParameter("quantità");
+				Prodotto p = null;
+				try {
+					p = daoP.doRetriveByKey(code);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if (quantità != null) {
+					ProdottoQuantita prodQuant = carrello.get(code);
+					
+					int setNum = prodQuant.getQuantita() - Integer.parseInt(quantità);
+					if (setNum <= 0) {
+						carrello.remove(code);
+						
+						if(username != null) {
+							System.out.println("Inserisco nel database " + code);
+							try {
+								daoPC.doDelete(new ProdottoInCarrello(code, "", 0));
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							};
+						}
+						
+					} else {
+						prodQuant = carrello.get(code);
+						prodQuant.setQuantita(setNum);
+						
+						if(username != null) {
+							System.out.println("Inserisco nel database " + code);
+							try {
+								daoPC.doSaveOrUpdate(new ProdottoInCarrello(code, username, setNum));
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							};
+						}
+						
+					}
+				}
 			}
 			
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
+			}
+			
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("Carrello.jsp");
+			requestDispatcher.forward(request, response);
+		
 	}
 
 	/**

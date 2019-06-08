@@ -32,7 +32,7 @@ public class registration extends HttpServlet {
 		Boolean ack = dao.doSave(x);
 		
 		request.setAttribute("Controllo", ack);
-		RequestDispatcher view = request.getRequestDispatcher("result.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("Starter");
 		view.forward(request, response);
 	}
 }

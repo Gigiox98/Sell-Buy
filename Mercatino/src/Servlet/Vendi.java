@@ -95,7 +95,7 @@ public class Vendi extends HttpServlet {
 					try {
 						int esito = pDAO.doSaveOrUpdate(p);
 						if (esito == 1) {
-							response.sendRedirect("HomePage.jsp");
+							response.sendRedirect("Starter");
 						} else {
 							response.sendError(500);
 						}
